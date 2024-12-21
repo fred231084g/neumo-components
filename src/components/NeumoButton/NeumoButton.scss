@@ -1,4 +1,5 @@
 @use "../../styles/globals.scss";
+@use "../../styles/jitterfix.scss"; // Import jitterfix module
 
 // Define default styles for PPI components
 :root {
@@ -30,19 +31,42 @@
 
   // Hover state
   &:hover {
+    @include jitterfix.hover-transform; // Use transform for hover effect
     @include apply-scale-transform(var(--neumo-btn-hover-scale));
   }
 
   // Active state
   &:active {
     @include apply-scale-transform(var(--neumo-btn-active-scale));
-    @include neu(top left, darken(var(--neumo-btn-shadow-light), 10%), darken(var(--neumo-btn-shadow-dark), 10%));
+    @include neu(
+      top left,
+      darken(var(--neumo-btn-shadow-light), 10%),
+      darken(var(--neumo-btn-shadow-dark), 10%)
+    );
   }
 
   // Disabled state
   &:disabled {
     cursor: not-allowed;
     opacity: var(--neumo-btn-disabled-opacity);
-    @include neu(top left, lighten(var(--neumo-btn-shadow-light), 10%), lighten(var(--neumo-btn-shadow-dark), 10%));
+    @include neu(
+      top left,
+      lighten(var(--neumo-btn-shadow-light), 10%),
+      lighten(var(--neumo-btn-shadow-dark), 10%)
+    );
+  }
+}
+
+// Jitterfix Integration: Add variants for box-shadow and fixed size
+.neumo-button.jitter-shadow {
+  &:hover {
+    @include jitterfix.hover-shadow; // Use box-shadow hover effect
+  }
+}
+
+.neumo-button.jitter-fixed {
+  min-height: 50px; // Set consistent size
+  &:hover {
+    @include jitterfix.hover-fixed; // Use fixed size hover effect
   }
 }

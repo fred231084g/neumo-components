@@ -21,6 +21,7 @@ export class NeumoButton extends LitElement {
       --neumo-btn-hover-scale: 0.1;
       --neumo-btn-active-scale: 0.2;
       --neumo-btn-disabled-opacity: 0.6;
+      display: inline-block;
     }
 
     button {
@@ -40,11 +41,11 @@ export class NeumoButton extends LitElement {
     }
 
     button:hover {
-      transform: scale(1.1);
+      transform: scale(1 + var(--neumo-btn-hover-scale));
     }
 
     button:active {
-      transform: scale(1.2);
+      transform: scale(1 - var(--neumo-btn-active-scale));
       box-shadow: 2px 2px 5px var(--neumo-btn-shadow-dark),
         -2px -2px 5px var(--neumo-btn-shadow-light);
     }
@@ -88,8 +89,3 @@ export class NeumoButton extends LitElement {
     }
   }
 }
-
-// Register the component with the browser
-// This tells the browser that <neumo-button> is a custom HTML element
-// that should be rendered using the NeumoButton class.
-customElements.define('neumo-button', NeumoButton);
