@@ -1,3 +1,2 @@
-export * from './NeumoButton';
-export * from './NeumoCard';
-
+export * from './NeumoButton/NeumoButton';
+export * from './NeumoCard/NeumoCard';
