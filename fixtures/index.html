@@ -4,8 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Neumo Components Showcase</title>
-  <!-- Include the bundled styles -->
-  <link rel="stylesheet" href="../dist/styles.css">
+  <style>
+    /* Neumo CSS code */
+    :root {
+      --bg-color: #f8f8f8;
+      --text-color: #333;
+      --primary-color: #74b9ff;
+      --shadow-light: #ffffff;
+      --shadow-dark: #b2bec3;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    neumo-card {
+      display: block;
+      margin: 20px auto;
+      max-width: 600px;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: var(--bg-color);
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      border-radius: 10px;
+    }
+
+    neumo-button {
+      display: block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 5px;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      cursor: pointer;
+    }
+
+    neumo-button:hover {
+      background-color: darken(var(--primary-color), 10%);
+    }
+  </style>
   <!-- Include the JavaScript bundle -->
   <script type="module" src="../dist/index.esm.js"></script>
   <style>
