@@ -1,7 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import { terser } from 'rollup-plugin-terser';
-import sass from 'sass';
 import typescript from '@rollup/plugin-typescript';
 
 export default [
@@ -36,6 +35,14 @@ export default [
         extract: 'dist/styles.css',
         minimize: true,
         syntax: require('postcss-scss'),
+        use: [
+          [
+            'sass',
+            {
+              implementation: require('sass'),
+            },
+          ],
+        ],
         plugins: [
           require('postcss-import'),
           require('postcss-preset-env')({ stage: 1 }),
