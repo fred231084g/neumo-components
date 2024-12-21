@@ -25,8 +25,9 @@ export default [
       },
     ],
     plugins: [
-      resolve(),
-      postcss({
+      resolve({
+        extensions: ['.js', '.ts'], // Add '.ts' for TypeScript
+      }),      postcss({
         extract: 'dist/styles.css',
         minimize: true,
         syntax: require('postcss-scss'), // Ensure SCSS syntax is recognized
