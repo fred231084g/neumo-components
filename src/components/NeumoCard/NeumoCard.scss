@@ -1,5 +1,4 @@
-@import "../../styles/globals";
-
+@use "../../styles/globals.scss";
 // Define default styles for NeumoCard component
 :root {
     --neumo-card-bg: #f0f0f0;
