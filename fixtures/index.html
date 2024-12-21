@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neumo Components Example</title>
+  <!-- Include the bundled styles -->
+  <link rel="stylesheet" href="../dist/styles.css">
+  <!-- Include the JavaScript bundle -->
+  <script type="module" src="../dist/index.esm.js"></script>
+</head>
+<body>
+  <h1>Neumo Components Showcase</h1>
+
+  <neumo-card>
+    <h2>Welcome to Neumorphism</h2>
+    <p>This is a card component styled with neumorphism principles.</p>
+    <neumo-button label="Click Me"></neumo-button>
+  </neumo-card>
+
+  <neumo-card>
+    <h2>Another Card</h2>
+    <p>This card demonstrates how components can be reused.</p>
+    <neumo-button label="Another Button"></neumo-button>
+  </neumo-card>
+
+  <script>
+    // Example: Add event listener to the NeumoButton
+    document.querySelectorAll('neumo-button').forEach(button => {
+      button.addEventListener('neumo-click', event => {
+        console.log(event.detail.message);
+      });
+    });
+  </script>
+</body>
+</html>

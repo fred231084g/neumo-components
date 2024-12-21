@@ -1,0 +1,60 @@
+/* Jitterfix Class */
+.jitterfix {
+    position: relative;
+    display: inline-block;
+  
+    /* Dropdown Base Styles */
+    &-dropdown {
+      display: none; /* Hidden by default */
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+  
+    &:hover .jitterfix-dropdown {
+      display: block; /* Show dropdown on hover */
+    }
+  
+    /* Base Styles for Links */
+    &-link {
+      color: black;
+      padding: 10px 20px;
+      text-decoration: none;
+      display: block;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      box-sizing: border-box; /* Ensure padding doesn't affect size */
+    }
+  
+    /* Fix 1: Transform */
+    &-link.hover-transform {
+      transform: scale(1); /* Default scale */
+    }
+  
+    &-link.hover-transform:hover {
+      transform: scaleY(1.1); /* Scale effect */
+      background-color: #007bff; /* Blue background on hover */
+      color: white; /* White text on hover */
+    }
+  
+    /* Fix 2: Box-Shadow */
+    &-link.hover-shadow:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+      background-color: #007bff; /* Blue background on hover */
+      color: white; /* White text on hover */
+    }
+  
+    /* Fix 3: Fixed Size */
+    &-link.hover-fixed {
+      min-height: 50px; /* Set a fixed height */
+      padding: 10px 20px; /* Maintain padding size */
+    }
+  
+    &-link.hover-fixed:hover {
+      background-color: #007bff; /* Blue background on hover */
+      color: white; /* White text on hover */
+    }
+  }
+  
