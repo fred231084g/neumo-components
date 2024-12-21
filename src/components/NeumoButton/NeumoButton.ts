@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('neumo-button')
-export class NeumoButton extends LitElement {
+export class NeumoButton extends HTMLElement {
   // Define component properties
   @property({ type: String }) label: string = 'Click Me';
   @property({ type: Boolean }) disabled: boolean = false;
