@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import { terser } from 'rollup-plugin-terser';
 import sass from 'sass';
+import typescript from '@rollup/plugin-typescript';
 
 export default [
   {
@@ -26,19 +27,15 @@ export default [
     ],
     plugins: [
       resolve({
-        extensions: ['.js', '.ts'], // Add '.ts' for TypeScript
-      }),      postcss({
+        extensions: ['.js', '.ts'],
+      }),
+      typescript({
+        tsconfig: './tsconfig.json', // Ensure correct tsconfig is used
+      }),
+      postcss({
         extract: 'dist/styles.css',
         minimize: true,
-        syntax: require('postcss-scss'), // Ensure SCSS syntax is recognized
-        use: [
-          [
-            'sass',
-            {
-              implementation: sass, // Explicitly use `sass`
-            },
-          ],
-        ],
+        syntax: require('postcss-scss'),
         plugins: [
           require('postcss-import'),
           require('postcss-preset-env')({ stage: 1 }),
@@ -46,7 +43,7 @@ export default [
           require('cssnano')({ preset: 'default' }),
         ],
       }),
-      terser(), // Minify JavaScript output
+      terser(),
     ],
   },
 ];
