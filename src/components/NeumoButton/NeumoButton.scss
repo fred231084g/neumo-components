@@ -1,0 +1,48 @@
+@import "../../styles/globals";
+
+// Define default styles for PPI components
+:root {
+  --neumo-btn-bg: #e0e0e0;
+  --neumo-btn-shadow-light: #ffffff;
+  --neumo-btn-shadow-dark: #cccccc;
+  --neumo-btn-text: #333;
+  --neumo-btn-hover-scale: 0.1;
+  --neumo-btn-active-scale: 0.2;
+  --neumo-btn-disabled-opacity: 0.6;
+}
+
+.neumo-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--neumo-btn-bg);
+  color: var(--neumo-btn-text);
+
+  // Neumorphism effect
+  @include neu(top left, var(--neumo-btn-shadow-light), var(--neumo-btn-shadow-dark));
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  // Hover state
+  &:hover {
+    @include apply-scale-transform(var(--neumo-btn-hover-scale));
+  }
+
+  // Active state
+  &:active {
+    @include apply-scale-transform(var(--neumo-btn-active-scale));
+    @include neu(top left, darken(var(--neumo-btn-shadow-light), 10%), darken(var(--neumo-btn-shadow-dark), 10%));
+  }
+
+  // Disabled state
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--neumo-btn-disabled-opacity);
+    @include neu(top left, lighten(var(--neumo-btn-shadow-light), 10%), lighten(var(--neumo-btn-shadow-dark), 10%));
+  }
+}

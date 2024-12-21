@@ -1,0 +1,13 @@
+.neu-element {
+    @include neu();
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  
+    &:hover {
+      @include apply-scale-transform(1);
+    }
+  
+    &:active {
+      @include apply-scale-transform(1.2);
+    }
+  }
+  

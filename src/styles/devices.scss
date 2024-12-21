@@ -1,0 +1,24 @@
+@mixin mobile($size) {
+    @if ($size == xs) { @media (max-width: $mobile-xs) { @content; } }
+    @else if ($size == sm) { @media (max-width: $mobile-sm) { @content; } }
+    @else if ($size == md) { @media (max-width: $mobile-md) { @content; } }
+    @else if ($size == lg) { @media (max-width: $mobile-lg) { @content; } }
+    @else if ($size == xl) { @media (max-width: $mobile-xl) { @content; } }
+  }
+  
+  @mixin tablet($size) {
+    @if ($size == xs) { @media (min-width: $tablet-xs) { @content; } }
+    @else if ($size == sm) { @media (min-width: $tablet-sm) { @content; } }
+    @else if ($size == md) { @media (min-width: $tablet-md) { @content; } }
+    @else if ($size == lg) { @media (min-width: $tablet-lg) { @content; } }
+    @else if ($size == xl) { @media (min-width: $tablet-xl) { @content; } }
+  }
+  
+  @mixin desktop($size) {
+    @if ($size == xs) { @media (min-width: $desktop-xs) { @content; } }
+    @else if ($size == sm) { @media (min-width: $desktop-sm) { @content; } }
+    @else if ($size == md) { @media (min-width: $desktop-md) { @content; } }
+    @else if ($size == lg) { @media (min-width: $desktop-lg) { @content; } }
+    @else if ($size == xl) { @media (min-width: $desktop-xl) { @content; } }
+  }
+  
