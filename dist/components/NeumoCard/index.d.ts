@@ -1,1 +1,0 @@
-export { NeumoCard } from './NeumoCard';

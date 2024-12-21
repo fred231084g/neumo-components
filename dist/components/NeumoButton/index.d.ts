@@ -1,1 +1,0 @@
-export { NeumoButton } from './NeumoButton';
