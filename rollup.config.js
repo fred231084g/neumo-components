@@ -1,8 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-import scss from 'rollup-plugin-scss';
+import postcss from 'rollup-plugin-postcss';
 import { terser } from 'rollup-plugin-terser';
+import sass from 'sass';
 
 export default [
   {
@@ -27,13 +26,26 @@ export default [
     ],
     plugins: [
       resolve(),
-      commonjs(),
-      typescript({ tsconfig: './tsconfig.json' }),
-      scss({
-        output: 'dist/styles.css', // Outputs all SCSS to a single CSS file
-        outputStyle: 'compressed', // Minifies the CSS
+      postcss({
+        extract: 'dist/styles.css',
+        minimize: true,
+        syntax: require('postcss-scss'), // Ensure SCSS syntax is recognized
+        use: [
+          [
+            'sass',
+            {
+              implementation: sass, // Explicitly use `sass`
+            },
+          ],
+        ],
+        plugins: [
+          require('postcss-import'),
+          require('postcss-preset-env')({ stage: 1 }),
+          require('autoprefixer'),
+          require('cssnano')({ preset: 'default' }),
+        ],
       }),
-      terser(), // Minify the output
+      terser(), // Minify JavaScript output
     ],
   },
 ];
