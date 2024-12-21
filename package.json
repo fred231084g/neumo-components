@@ -1,0 +1,41 @@
+{
+  "name": "@obinexuscomputing/neumo-components",
+  "version": "1.0.0",
+  "description": "Neumorphism SVG components library",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "umd:main": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "umd": "./dist/index.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "start": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.7.2"
+  },
+  "keywords": [
+    "neumorphism",
+    "svg",
+    "components",
+    "lit",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
