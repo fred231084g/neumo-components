@@ -1,5 +1,4 @@
 @use "../../styles/globals.scss";
-@use "../../styles/jitterfix.scss"; // Import jitterfix module
 
 // Define default styles for PPI components
 :root {
@@ -25,7 +24,7 @@
   color: var(--neumo-btn-text);
 
   // Neumorphism effect
-  @include neu(top left, var(--neumo-btn-shadow-light), var(--neumo-btn-shadow-dark));
+  @include neu(12px, light, 10px, 20px);
 
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 
@@ -39,9 +38,10 @@
   &:active {
     @include apply-scale-transform(var(--neumo-btn-active-scale));
     @include neu(
-      top left,
-      darken(var(--neumo-btn-shadow-light), 10%),
-      darken(var(--neumo-btn-shadow-dark), 10%)
+      12px,
+      light,
+      10px,
+      20px
     );
   }
 
@@ -50,9 +50,10 @@
     cursor: not-allowed;
     opacity: var(--neumo-btn-disabled-opacity);
     @include neu(
-      top left,
-      lighten(var(--neumo-btn-shadow-light), 10%),
-      lighten(var(--neumo-btn-shadow-dark), 10%)
+      12px,
+      light,
+      10px,
+      20px
     );
   }
 }
