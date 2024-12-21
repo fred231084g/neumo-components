@@ -1,5 +1,6 @@
-import { LitElement, html, css, customElement } from 'lit-element';
+import { LitElement, html, css  } from 'lit-element';
 import './NeumoCard.scss';
+import { customElement } from 'lit/decorators';
 
 @customElement('neumo-card')
 export class NeumoCard extends LitElement {
