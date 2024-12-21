@@ -1,13 +1,149 @@
-.neu-element {
-    @include neu();
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  
-    &:hover {
-      @include apply-scale-transform(1);
-    }
-  
-    &:active {
-      @include apply-scale-transform(1.2);
-    }
+// Default Theme Variables
+$light-bg: #e0e0e0;
+$light-shadow-dark: #bebebe;
+$light-shadow-light: #ffffff;
+
+$dark-bg: #303030;
+$dark-shadow-dark: #1a1a1a;
+$dark-shadow-light: #4a4a4a;
+
+// Contrast Mode Support Mixin
+@mixin contrast-support($mode: light) {
+  @if $mode == light {
+    $bg: $light-bg;
+    $shadow-dark: $light-shadow-dark;
+    $shadow-light: $light-shadow-light;
+  } @else if $mode == dark {
+    $bg: $dark-bg;
+    $shadow-dark: $dark-shadow-dark;
+    $shadow-light: $dark-shadow-light;
   }
-  
+  $contrast-support-values: ($bg, $shadow-dark, $shadow-light);
+}
+
+// General Neumorphic Mixin with Contrast Support
+@mixin neu(
+  $radius: 50px,
+  $mode: light,
+  $offset: 20px,
+  $blur: 60px
+) {
+  $theme: contrast-support($mode);
+  $bg: nth($theme, 1);
+  $shadow-dark: nth($theme, 2);
+  $shadow-light: nth($theme, 3);
+
+  border-radius: $radius;
+  background: $bg;
+  box-shadow: #{$offset} #{$offset} $blur $shadow-dark, -#{$offset} -#{$offset} $blur $shadow-light;
+}
+
+// Flat Neumorphic Style with Contrast Support
+@mixin flat(
+  $gradient-direction: 315deg,
+  $mode: light,
+  $blur: 60px
+) {
+  $theme: contrast-support($mode);
+  $start-color: nth($theme, 1);
+  $end-color: lighten(nth($theme, 1), 10%);
+  $shadow-dark: nth($theme, 2);
+  $shadow-light: nth($theme, 3);
+
+  border-radius: 50px;
+  background: linear-gradient($gradient-direction, $start-color, $end-color);
+  box-shadow: -20px -20px $blur $shadow-dark, 20px 20px $blur $shadow-light;
+}
+
+// Concave Style with Contrast Support
+@mixin concave(
+  $gradient-direction: 315deg,
+  $mode: light,
+  $blur: 60px
+) {
+  $theme: contrast-support($mode);
+  $start-color: lighten(nth($theme, 1), 10%);
+  $end-color: nth($theme, 1);
+  $shadow-dark: nth($theme, 2);
+  $shadow-light: nth($theme, 3);
+
+  border-radius: 50px;
+  background: linear-gradient($gradient-direction, $start-color, $end-color);
+  box-shadow: -20px -20px $blur $shadow-dark, 20px 20px $blur $shadow-light;
+}
+
+// Convex Style with Contrast Support
+@mixin convex(
+  $mode: light,
+  $blur: 60px,
+  $inset-offset: 20px
+) {
+  $theme: contrast-support($mode);
+  $bg: nth($theme, 1);
+  $shadow-dark: nth($theme, 2);
+  $shadow-light: nth($theme, 3);
+
+  border-radius: 50px;
+  background: $bg;
+  box-shadow: inset -#{$inset-offset} -#{$inset-offset} $blur $shadow-dark,
+              inset #{$inset-offset} #{$inset-offset} $blur $shadow-light;
+}
+
+// Pushed Concave with Contrast Support
+@mixin pushed-concave(
+  $radius: 50px,
+  $mode: light,
+  $inset-depth: 20px,
+  $blur: 60px
+) {
+  $theme: contrast-support($mode);
+  $bg: nth($theme, 1);
+  $shadow-dark: nth($theme, 2);
+  $shadow-light: nth($theme, 3);
+
+  border-radius: $radius;
+  background: $bg;
+  box-shadow: inset -#{$inset-depth} -#{$inset-depth} $blur $shadow-dark,
+              inset #{$inset-depth} #{$inset-depth} $blur $shadow-light;
+}
+
+// Example Classes
+.neu-element {
+  @include neu($mode: light);
+}
+
+.neu-dark-element {
+  @include neu($mode: dark);
+}
+
+.neu-flat {
+  @include flat($mode: light);
+}
+
+.neu-dark-flat {
+  @include flat($mode: dark);
+}
+
+.neu-concave {
+  @include concave($mode: light);
+}
+
+.neu-dark-concave {
+  @include concave($mode: dark);
+}
+
+.neu-convex {
+  @include convex($mode: light);
+}
+
+.neu-dark-convex {
+  @include convex($mode: dark);
+}
+
+.neu-pseudo-concave {
+  @include pushed-concave($mode: light);
+}
+
+.neu-dark-pseudo-concave {
+  @include pushed-concave($mode: dark);
+}
