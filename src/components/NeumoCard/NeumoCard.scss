@@ -1,4 +1,6 @@
 @use "../../styles/globals.scss";
+@use "../../styles/jitterfix.scss"; // Import jitterfix module
+
 // Define default styles for NeumoCard component
 :root {
     --neumo-card-bg: #f0f0f0;
@@ -6,6 +8,8 @@
     --neumo-card-shadow-dark: #d1d1d1;
     --neumo-card-border-radius: 16px;
     --neumo-card-padding: 20px;
+    --neumo-card-hover-scale: 1.02;
+    --neumo-card-active-scale: 0.98;
 }
 
 .neumo-card {
@@ -13,20 +17,34 @@
     border-radius: var(--neumo-card-border-radius);
     padding: var(--neumo-card-padding);
     box-shadow: 10px 10px 20px var(--neumo-card-shadow-dark),
-                            -10px -10px 20px var(--neumo-card-shadow-light);
+                -10px -10px 20px var(--neumo-card-shadow-light);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 
     // Hover state
     &:hover {
-        transform: scale(1.02);
+        @include jitterfix.hover-transform(var(--neumo-card-hover-scale)); // Use jitterfix hover transform
         box-shadow: 8px 8px 16px var(--neumo-card-shadow-dark),
-                                -8px -8px 16px var(--neumo-card-shadow-light);
+                    -8px -8px 16px var(--neumo-card-shadow-light);
     }
 
     // Active state
     &:active {
-        transform: scale(0.98);
+        @include jitterfix.hover-transform(var(--neumo-card-active-scale)); // Use jitterfix active transform
         box-shadow: 5px 5px 10px var(--neumo-card-shadow-dark),
-                                -5px -5px 10px var(--neumo-card-shadow-light);
+                    -5px -5px 10px var(--neumo-card-shadow-light);
+    }
+}
+
+// Jitterfix variants
+.neumo-card.jitter-shadow {
+    &:hover {
+        @include jitterfix.hover-shadow; // Add shadow effect from jitterfix
+    }
+}
+
+.neumo-card.jitter-fixed {
+    min-height: 150px; // Set a fixed height
+    &:hover {
+        @include jitterfix.hover-fixed; // Ensure size consistency
     }
 }
