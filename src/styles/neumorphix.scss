@@ -1,8 +1,8 @@
-
 @use 'sass:color';
 @use 'sass:meta';
 @use 'sass:map';
-// Enhanced Theme Variables with Improved Contrast
+
+// Enhanced Theme Configuration
 $themes: (
   light: (
     bg: #e0e0e0,
@@ -33,23 +33,26 @@ $themes: (
   )
 );
 
-// Enhanced Contrast Support System
+// Theme System Utilities
+@function get-theme-value($theme, $key) {
+  @return map.get(map.get($themes, $theme), $key);
+}
+
 @mixin theme-aware($property, $theme-key) {
   @each $theme, $values in $themes {
     .theme-#{$theme} & {
-      #{$property}: map-get(map-get($themes, $theme), $theme-key);
+      #{$property}: get-theme-value($theme, $theme-key);
     }
   }
 }
 
-// Improved Contrast Mode Detection
 @mixin contrast-mode {
   @media (prefers-contrast: more) {
     @content;
   }
 }
 
-// Enhanced Neumorphic Effects with Contrast Consideration
+// Enhanced Neumorphic Effects
 @mixin neu-effect(
   $radius: 8px,
   $mode: light,
@@ -57,30 +60,32 @@ $themes: (
   $blur: 16px,
   $intensity: 1
 ) {
-  $theme: map-get($themes, $mode);
-  $shadow-dark: map-get($theme, shadow-dark);
-  $shadow-light: map-get($theme, shadow-light);
-  $border-color: map-get($theme, contrast-border);
+  $theme-values: map.get($themes, $mode);
+  $shadow-dark: map.get($theme-values, 'shadow-dark');
+  $shadow-light: map.get($theme-values, 'shadow-light');
+  $border-color: map.get($theme-values, 'contrast-border');
+  $bg-color: map.get($theme-values, 'bg');
+  $text-color: map.get($theme-values, 'text');
+  $focus-ring: map.get($theme-values, 'focus-ring');
 
-  border-radius: $radius;
-  background: map-get($theme, bg);
-  color: map-get($theme, text);
-  
-  // Base shadow effect
-  box-shadow: 
-    #{$offset} #{$offset} #{$blur} rgba(mix(#000, $shadow-dark, 20%), $intensity),
-    -#{$offset} -#{$offset} #{$blur} rgba(mix(#fff, $shadow-light, 20%), $intensity);
+  & {
+    border-radius: $radius;
+    background: $bg-color;
+    color: $text-color;
+    
+    box-shadow: 
+      #{$offset} #{$offset} #{$blur} color.adjust($shadow-dark, $alpha: -0.8 * (1 - $intensity)),
+      -#{$offset} -#{$offset} #{$blur} color.adjust($shadow-light, $alpha: -0.8 * (1 - $intensity));
 
-  // Enhanced contrast mode handling
-  @include contrast-mode {
-    border: 1px solid $border-color;
-    box-shadow: none;
-  }
+    @include contrast-mode {
+      border: 1px solid $border-color;
+      box-shadow: none;
+    }
 
-  // Focus state enhancement
-  &:focus-visible {
-    outline: 2px solid map-get($theme, focus-ring);
-    outline-offset: 2px;
+    &:focus-visible {
+      outline: 2px solid $focus-ring;
+      outline-offset: 2px;
+    }
   }
 }
 
@@ -89,18 +94,21 @@ $themes: (
   $mode: light,
   $gradient-angle: 145deg
 ) {
-  $theme: map-get($themes, $mode);
-  $bg-color: map-get($theme, bg);
-  
-  background: linear-gradient(
-    $gradient-angle,
-    lighten($bg-color, 5%),
-    darken($bg-color, 5%)
-  );
-  
-  @include contrast-mode {
-    background: $bg-color;
-    border: 1px solid map-get($theme, contrast-border);
+  $theme-values: map.get($themes, $mode);
+  $bg-color: map.get($theme-values, 'bg');
+  $border-color: map.get($theme-values, 'contrast-border');
+
+  & {
+    background: linear-gradient(
+      $gradient-angle,
+      color.scale($bg-color, $lightness: 5%),
+      color.scale($bg-color, $lightness: -5%)
+    );
+    
+    @include contrast-mode {
+      background: $bg-color;
+      border: 1px solid $border-color;
+    }
   }
 }
 
@@ -110,96 +118,98 @@ $themes: (
   $radius: 8px,
   $depth: 2px
 ) {
-  $theme: map-get($themes, $mode);
-  
-  background: map-get($theme, bg);
-  border-radius: $radius;
-  box-shadow: 
-    inset #{$depth} #{$depth} #{$depth * 2} rgba(0, 0, 0, 0.2),
-    inset -#{$depth} -#{$depth} #{$depth * 2} rgba(255, 255, 255, 0.2);
+  $theme-values: map.get($themes, $mode);
+  $bg-color: map.get($theme-values, 'bg');
+  $border-color: map.get($theme-values, 'contrast-border');
 
-  @include contrast-mode {
-    box-shadow: inset 0 0 0 1px map-get($theme, contrast-border);
+  & {
+    background: $bg-color;
+    border-radius: $radius;
+    box-shadow: 
+      inset #{$depth} #{$depth} #{$depth * 2} color.change(#000000, $alpha: 0.2),
+      inset -#{$depth} -#{$depth} #{$depth * 2} color.change(#ffffff, $alpha: 0.2);
+
+    @include contrast-mode {
+      box-shadow: inset 0 0 0 1px $border-color;
+    }
   }
 }
 
-// Interactive State Mixins
+// Interactive States
 @mixin neu-interactive($mode: light) {
-  $theme: map-get($themes, $mode);
-  
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-1px);
+  $theme-values: map.get($themes, $mode);
+  $bg-color: map.get($theme-values, 'bg');
+
+  & {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     
-    @include contrast-mode {
-      text-decoration: underline;
-      transform: none;
+    &:hover {
+      transform: translateY(-1px);
+      
+      @include contrast-mode {
+        text-decoration: underline;
+        transform: none;
+      }
     }
-  }
-  
-  &:active {
-    transform: translateY(1px);
     
-    @include contrast-mode {
-      background-color: darken(map-get($theme, bg), 5%);
-      transform: none;
+    &:active {
+      transform: translateY(1px);
+      
+      @include contrast-mode {
+        background-color: color.scale($bg-color, $lightness: -5%);
+        transform: none;
+      }
     }
   }
 }
 
-// Accessibility Enhancement Mixins
+// Enhanced Focus States
 @mixin focus-visible($mode: light) {
-  $theme: map-get($themes, $mode);
-  
-  &:focus-visible {
-    outline: 2px solid map-get($theme, focus-ring);
-    outline-offset: 2px;
-    
-    @include contrast-mode {
-      outline-width: 3px;
+  $theme-values: map.get($themes, $mode);
+  $focus-ring: map.get($theme-values, 'focus-ring');
+
+  & {
+    &:focus-visible {
+      outline: 2px solid $focus-ring;
+      outline-offset: 2px;
+      
+      @include contrast-mode {
+        outline-width: 3px;
+      }
     }
   }
 }
 
 // Color Contrast Utilities
 @function get-contrast-color($background, $light-color, $dark-color) {
-  $luminance: (red($background) * 0.299 + green($background) * 0.587 + blue($background) * 0.114) / 255;
+  $luminance: (color.red($background) * 0.299 + color.green($background) * 0.587 + color.blue($background) * 0.114) / 255;
   @return if($luminance > 0.6, $dark-color, $light-color);
 }
 
-// Usage Example Classes
-.neu-button {
+// Component Base Classes
+.neu-base {
   @include neu-effect($mode: light);
-  @include neu-interactive(light);
   @include focus-visible(light);
-  
-  padding: 12px 24px;
-  font-weight: 500;
-  cursor: pointer;
-  
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    
-    @include contrast-mode {
-      opacity: 0.4;
-    }
+
+  & {
+    position: relative;
+    box-sizing: border-box;
   }
 }
 
-.neu-card {
-  @include neu-effect($mode: light, $radius: 12px, $offset: 12px, $blur: 24px);
-  padding: 20px;
-  
-  &-title {
-    @include theme-aware(color, text);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  &-content {
-    @include theme-aware(color, text-secondary);
+.neu-interactive-base {
+  @include neu-interactive(light);
+
+  & {
+    cursor: pointer;
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      
+      @include contrast-mode {
+        opacity: 0.4;
+      }
+    }
   }
 }
