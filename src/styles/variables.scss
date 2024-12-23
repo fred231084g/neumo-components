@@ -1,4 +1,6 @@
-// _variables.scss
+@use "sass:map";
+@use "sass:meta";
+
 // Color System
 $colors: (
   'neutral': (
@@ -55,17 +57,18 @@ $neumorphic: (
   )
 );
 
+
 // Functions to access nested maps
 @function get-color($color, $shade) {
-  @return map-get(map-get($colors, $color), $shade);
+  @return map.get(map.get($colors, $color), $shade);
 }
 
 @function get-breakpoint($device, $size) {
-  @return map-get(map-get($breakpoints, $device), $size);
+  @return map.get(map.get($breakpoints, $device), $size);
 }
 
 @function get-neumorphic($category, $value) {
-  @return map-get(map-get($neumorphic, $category), $value);
+  @return map.get(map.get($neumorphic, $category), $value);
 }
 
 // CSS Custom Properties Export
@@ -85,10 +88,12 @@ $neumorphic: (
   }
 
   // Neumorphic
-  --neu-shadow-light: #{get-neumorphic('shadow', 'light')};
+  --neu-blur: #{map.get($neumorphic, 'blur')};
+
   --neu-shadow-dark: #{get-neumorphic('shadow', 'dark')};
-  --neu-blur: #{map-get($neumorphic, 'blur')};
+
   --neu-light-color: #{get-neumorphic('colors', 'light')};
+
   --neu-dark-color: #{get-neumorphic('colors', 'dark')};
 }
 
