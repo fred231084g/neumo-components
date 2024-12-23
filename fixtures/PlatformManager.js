@@ -89,27 +89,3 @@ export class PlatformManager {
       });
     }
   }
-
-  // Initialize platform management
-  window.addEventListener('DOMContentLoaded', () => {
-    new PlatformManager();
-  });
-
-  // Handle reduced motion preference
-  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const handleMotionPreference = e => {
-    document.documentElement.style.setProperty(
-      '--transition-duration',
-      e.matches ? '0.01ms' : '0.2s'
-    );
-  };
-  mediaQuery.addEventListener('change', handleMotionPreference);
-  handleMotionPreference(mediaQuery);
-
-  // Handle contrast preference
-  const contrastQuery = window.matchMedia('(prefers-contrast: more)');
-  const handleContrastPreference = e => {
-    document.documentElement.classList.toggle('high-contrast', e.matches);
-  };
-  contrastQuery.addEventListener('change', handleContrastPreference);
-  handleContrastPreference(contrastQuery);
