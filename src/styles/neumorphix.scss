@@ -214,3 +214,25 @@ $themes: (
   }
 }
 
+
+@mixin hover-shadow {
+
+  backface-visibility: hidden;
+
+  transform: translateZ(0);
+
+  -webkit-font-smoothing: subpixel-antialiased;
+
+}
+
+
+
+@mixin hover-fixed {
+
+  transform: translate3d(0, 0, 0);
+
+  backface-visibility: hidden;
+
+  perspective: 1000px;
+
+}
