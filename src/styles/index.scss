@@ -1,7 +1,13 @@
-// src/styles/index.scss
+@forward 'variables';
+@forward 'mixins';
+@forward 'devices';
+@forward 'neumorphix';
+@forward 'jitterfix';
+
 // Import components with namespacing
 @use '../components/NeumoButton/NeumoButton.scss' as button;
 @use '../components/NeumoCard/NeumoCard.scss' as card;
+
 // Core utilities and functions
 @use "sass:math";
 @use "sass:map";
@@ -131,11 +137,6 @@
   }
 }
 
-@forward 'variables';
-@forward 'mixins';
-@forward 'devices';
-@forward 'neumorphix';
-@forward 'jitterfix';
 
 // Base styles
 html {
