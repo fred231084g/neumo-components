@@ -1,149 +1,201 @@
-// Default Theme Variables
-$light-bg: #e0e0e0;
-$light-shadow-dark: #bebebe;
-$light-shadow-light: #ffffff;
+// Enhanced Theme Variables with Improved Contrast
+$themes: (
+  light: (
+    bg: #e0e0e0,
+    text: #1a1a1a,
+    text-secondary: #404040,
+    shadow-dark: #b8b8b8,
+    shadow-light: #ffffff,
+    contrast-border: rgba(0, 0, 0, 0.12),
+    focus-ring: #0066cc
+  ),
+  dark: (
+    bg: #2a2a2a,
+    text: #ffffff,
+    text-secondary: #e0e0e0,
+    shadow-dark: #1a1a1a,
+    shadow-light: #3a3a3a,
+    contrast-border: rgba(255, 255, 255, 0.12),
+    focus-ring: #4d9fff
+  ),
+  high-contrast: (
+    bg: #ffffff,
+    text: #000000,
+    text-secondary: #1a1a1a,
+    shadow-dark: #000000,
+    shadow-light: #ffffff,
+    contrast-border: #000000,
+    focus-ring: #0000ff
+  )
+);
 
-$dark-bg: #303030;
-$dark-shadow-dark: #1a1a1a;
-$dark-shadow-light: #4a4a4a;
-
-// Contrast Mode Support Mixin
-@mixin contrast-support($mode: light) {
-  @if $mode == light {
-    $bg: $light-bg;
-    $shadow-dark: $light-shadow-dark;
-    $shadow-light: $light-shadow-light;
-  } @else if $mode == dark {
-    $bg: $dark-bg;
-    $shadow-dark: $dark-shadow-dark;
-    $shadow-light: $dark-shadow-light;
+// Enhanced Contrast Support System
+@mixin theme-aware($property, $theme-key) {
+  @each $theme, $values in $themes {
+    .theme-#{$theme} & {
+      #{$property}: map-get(map-get($themes, $theme), $theme-key);
+    }
   }
-  $contrast-support-values: ($bg, $shadow-dark, $shadow-light);
 }
 
-// General Neumorphic Mixin with Contrast Support
-@mixin neu(
-  $radius: 50px,
+// Improved Contrast Mode Detection
+@mixin contrast-mode {
+  @media (prefers-contrast: more) {
+    @content;
+  }
+}
+
+// Enhanced Neumorphic Effects with Contrast Consideration
+@mixin neu-effect(
+  $radius: 8px,
   $mode: light,
-  $offset: 20px,
-  $blur: 60px
+  $offset: 8px,
+  $blur: 16px,
+  $intensity: 1
 ) {
-  $theme: contrast-support($mode);
-  $bg: nth($theme, 1);
-  $shadow-dark: nth($theme, 2);
-  $shadow-light: nth($theme, 3);
+  $theme: map-get($themes, $mode);
+  $shadow-dark: map-get($theme, shadow-dark);
+  $shadow-light: map-get($theme, shadow-light);
+  $border-color: map-get($theme, contrast-border);
 
   border-radius: $radius;
-  background: $bg;
-  box-shadow: #{$offset} #{$offset} $blur $shadow-dark, -#{$offset} -#{$offset} $blur $shadow-light;
+  background: map-get($theme, bg);
+  color: map-get($theme, text);
+  
+  // Base shadow effect
+  box-shadow: 
+    #{$offset} #{$offset} #{$blur} rgba(mix(#000, $shadow-dark, 20%), $intensity),
+    -#{$offset} -#{$offset} #{$blur} rgba(mix(#fff, $shadow-light, 20%), $intensity);
+
+  // Enhanced contrast mode handling
+  @include contrast-mode {
+    border: 1px solid $border-color;
+    box-shadow: none;
+  }
+
+  // Focus state enhancement
+  &:focus-visible {
+    outline: 2px solid map-get($theme, focus-ring);
+    outline-offset: 2px;
+  }
 }
 
-// Flat Neumorphic Style with Contrast Support
-@mixin flat(
-  $gradient-direction: 315deg,
+// Enhanced Flat Style
+@mixin neu-flat(
   $mode: light,
-  $blur: 60px
+  $gradient-angle: 145deg
 ) {
-  $theme: contrast-support($mode);
-  $start-color: nth($theme, 1);
-  $end-color: lighten(nth($theme, 1), 10%);
-  $shadow-dark: nth($theme, 2);
-  $shadow-light: nth($theme, 3);
-
-  border-radius: 50px;
-  background: linear-gradient($gradient-direction, $start-color, $end-color);
-  box-shadow: -20px -20px $blur $shadow-dark, 20px 20px $blur $shadow-light;
+  $theme: map-get($themes, $mode);
+  $bg-color: map-get($theme, bg);
+  
+  background: linear-gradient(
+    $gradient-angle,
+    lighten($bg-color, 5%),
+    darken($bg-color, 5%)
+  );
+  
+  @include contrast-mode {
+    background: $bg-color;
+    border: 1px solid map-get($theme, contrast-border);
+  }
 }
 
-// Concave Style with Contrast Support
-@mixin concave(
-  $gradient-direction: 315deg,
+// Enhanced Pressed Effect
+@mixin neu-pressed(
   $mode: light,
-  $blur: 60px
+  $radius: 8px,
+  $depth: 2px
 ) {
-  $theme: contrast-support($mode);
-  $start-color: lighten(nth($theme, 1), 10%);
-  $end-color: nth($theme, 1);
-  $shadow-dark: nth($theme, 2);
-  $shadow-light: nth($theme, 3);
-
-  border-radius: 50px;
-  background: linear-gradient($gradient-direction, $start-color, $end-color);
-  box-shadow: -20px -20px $blur $shadow-dark, 20px 20px $blur $shadow-light;
-}
-
-// Convex Style with Contrast Support
-@mixin convex(
-  $mode: light,
-  $blur: 60px,
-  $inset-offset: 20px
-) {
-  $theme: contrast-support($mode);
-  $bg: nth($theme, 1);
-  $shadow-dark: nth($theme, 2);
-  $shadow-light: nth($theme, 3);
-
-  border-radius: 50px;
-  background: $bg;
-  box-shadow: inset -#{$inset-offset} -#{$inset-offset} $blur $shadow-dark,
-              inset #{$inset-offset} #{$inset-offset} $blur $shadow-light;
-}
-
-// Pushed Concave with Contrast Support
-@mixin concave-clicked(
-  $radius: 50px,
-  $mode: light,
-  $inset-depth: 20px,
-  $blur: 60px
-) {
-  $theme: contrast-support($mode);
-  $bg: nth($theme, 1);
-  $shadow-dark: nth($theme, 2);
-  $shadow-light: nth($theme, 3);
-
+  $theme: map-get($themes, $mode);
+  
+  background: map-get($theme, bg);
   border-radius: $radius;
-  background: $bg;
-  box-shadow: inset -#{$inset-depth} -#{$inset-depth} $blur $shadow-dark,
-              inset #{$inset-depth} #{$inset-depth} $blur $shadow-light;
+  box-shadow: 
+    inset #{$depth} #{$depth} #{$depth * 2} rgba(0, 0, 0, 0.2),
+    inset -#{$depth} -#{$depth} #{$depth * 2} rgba(255, 255, 255, 0.2);
+
+  @include contrast-mode {
+    box-shadow: inset 0 0 0 1px map-get($theme, contrast-border);
+  }
 }
 
-// Example Classes
-.neu-element {
-  @include neu($mode: light);
+// Interactive State Mixins
+@mixin neu-interactive($mode: light) {
+  $theme: map-get($themes, $mode);
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    
+    @include contrast-mode {
+      text-decoration: underline;
+      transform: none;
+    }
+  }
+  
+  &:active {
+    transform: translateY(1px);
+    
+    @include contrast-mode {
+      background-color: darken(map-get($theme, bg), 5%);
+      transform: none;
+    }
+  }
 }
 
-.neu-dark-element {
-  @include neu($mode: dark);
+// Accessibility Enhancement Mixins
+@mixin focus-visible($mode: light) {
+  $theme: map-get($themes, $mode);
+  
+  &:focus-visible {
+    outline: 2px solid map-get($theme, focus-ring);
+    outline-offset: 2px;
+    
+    @include contrast-mode {
+      outline-width: 3px;
+    }
+  }
 }
 
-.neu-flat {
-  @include flat($mode: light);
+// Color Contrast Utilities
+@function get-contrast-color($background, $light-color, $dark-color) {
+  $luminance: (red($background) * 0.299 + green($background) * 0.587 + blue($background) * 0.114) / 255;
+  @return if($luminance > 0.6, $dark-color, $light-color);
 }
 
-.neu-dark-flat {
-  @include flat($mode: dark);
+// Usage Example Classes
+.neu-button {
+  @include neu-effect($mode: light);
+  @include neu-interactive(light);
+  @include focus-visible(light);
+  
+  padding: 12px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    
+    @include contrast-mode {
+      opacity: 0.4;
+    }
+  }
 }
 
-.neu-concave {
-  @include concave($mode: light);
-}
-
-.neu-dark-concave {
-  @include concave($mode: dark);
-}
-
-.neu-convex {
-  @include convex($mode: light);
-}
-
-.neu-dark-convex {
-  @include convex($mode: dark);
-}
-
-.neu-pseudo-concave {
-  @include  concave-clicked($mode: light);
-}
-
-.neu-dark-pseudo-concave {
-  @include  concave-clicked($mode: dark);
+.neu-card {
+  @include neu-effect($mode: light, $radius: 12px, $offset: 12px, $blur: 24px);
+  padding: 20px;
+  
+  &-title {
+    @include theme-aware(color, text);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  &-content {
+    @include theme-aware(color, text-secondary);
+  }
 }

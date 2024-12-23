@@ -34,6 +34,151 @@
       color: $dark-color;
     }
   
+
     &:active {
-      background-color: $dar
+
+      background-color: $dark-color;
+
+  }
+}
+
+
+// Enhanced Accessibility Mixins
+@mixin a11y-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Enhanced Color Contrast Mixins
+@mixin color-contrast($background, $color-light: #ffffff, $color-dark: #000000) {
+  $luminance: (red($background) * 0.299 + green($background) * 0.587 + blue($background) * 0.114) / 255;
+  color: if($luminance > 0.6, $color-dark, $color-light);
+
+  @include contrast-mode {
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+  }
+}
+
+// Enhanced Touch Target Mixins
+@mixin touch-target($size: 44px) {
+  min-width: $size;
+  min-height: $size;
   
+  @include contrast-mode {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// Enhanced Focus States
+@mixin focus-ring($color: #0066cc, $offset: 3px) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: $offset;
+    
+    @include contrast-mode {
+      outline-width: 3px;
+      outline-color: #000000;
+    }
+  }
+}
+
+// Enhanced Motion Safety
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// Enhanced Text Contrast
+@mixin text-contrast($base-size) {
+  font-size: $base-size;
+  line-height: 1.5;
+  font-weight: 500;
+  
+  @include contrast-mode {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
+// Enhanced Border Contrast
+@mixin border-contrast($color: currentColor, $width: 1px) {
+  border: $width solid rgba($color, 0.12);
+  
+  @include contrast-mode {
+    border-width: 2px;
+    border-color: #000000;
+  }
+}
+
+// Platform-Specific Contrast Enhancements
+@mixin platform-contrast($platform) {
+  @if $platform == 'ios' {
+    @include touch-target(44px);
+    @include border-contrast(#000000, 1px);
+  } @else if $platform == 'android' {
+    @include touch-target(48px);
+    @include border-contrast(#000000, 2px);
+  } @else {
+    @include touch-target(40px);
+    @include border-contrast;
+  }
+}
+
+// Interactive State Contrast
+@mixin interactive-contrast {
+  cursor: pointer;
+  
+  &:hover {
+    @include contrast-mode {
+      text-decoration: underline;
+      background-color: #ffffff;
+      color: #000000;
+    }
+  }
+  
+  &:active {
+    @include contrast-mode {
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    
+    @include contrast-mode {
+      opacity: 0.4;
+      background-color: #cccccc;
+      color: #666666;
+    }
+  }
+}
+
+// Shadow Contrast Enhancement
+@mixin shadow-contrast($elevation: 1) {
+  $shadow-values: (
+    1: (0 2px 4px rgba(0, 0, 0, 0.1)),
+    2: (0 4px 8px rgba(0, 0, 0, 0.1)),
+    3: (0 8px 16px rgba(0, 0, 0, 0.1))
+  );
+  
+  box-shadow: map-get($shadow-values, $elevation);
+  
+  @include contrast-mode {
+    box-shadow: none;
+    border: 2px solid #000000;
+  }
+}
