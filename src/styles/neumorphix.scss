@@ -2,7 +2,7 @@
 @use 'sass:meta';
 @use 'sass:map';
 
-// Enhanced Theme Configuration
+// Theme Variables
 $themes: (
   light: (
     bg: #e0e0e0,
@@ -33,7 +33,7 @@ $themes: (
   )
 );
 
-// Theme System Utilities
+// Utilities
 @function get-theme-value($theme, $key) {
   @return map.get(map.get($themes, $theme), $key);
 }
@@ -52,7 +52,7 @@ $themes: (
   }
 }
 
-// Enhanced Neumorphic Effects
+// Main Neumorphic Effects
 @mixin neu-effect(
   $radius: 8px,
   $mode: light,
@@ -81,19 +81,11 @@ $themes: (
       border: 1px solid $border-color;
       box-shadow: none;
     }
-
-    &:focus-visible {
-      outline: 2px solid $focus-ring;
-      outline-offset: 2px;
-    }
   }
 }
 
-// Enhanced Flat Style
-@mixin flat(
-  $mode: light,
-  $gradient-angle: 145deg
-) {
+// Style Variants
+@mixin flat($mode: light, $gradient-angle: 145deg) {
   $theme-values: map.get($themes, $mode);
   $bg-color: map.get($theme-values, 'bg');
   $border-color: map.get($theme-values, 'contrast-border');
@@ -112,26 +104,29 @@ $themes: (
   }
 }
 
-// Enhanced Pressed Effect
-@mixin neu-pressed(
-  $mode: light,
-  $radius: 8px,
-  $depth: 2px
-) {
+@mixin concave($mode: light, $gradient-angle: 145deg) {
   $theme-values: map.get($themes, $mode);
   $bg-color: map.get($theme-values, 'bg');
-  $border-color: map.get($theme-values, 'contrast-border');
-
+  
   & {
-    background: $bg-color;
-    border-radius: $radius;
-    box-shadow: 
-      inset #{$depth} #{$depth} #{$depth * 2} color.change(#000000, $alpha: 0.2),
-      inset -#{$depth} -#{$depth} #{$depth * 2} color.change(#ffffff, $alpha: 0.2);
+    background: linear-gradient(
+      $gradient-angle,
+      color.scale($bg-color, $lightness: -5%),
+      color.scale($bg-color, $lightness: 5%)
+    );
+  }
+}
 
-    @include contrast-mode {
-      box-shadow: inset 0 0 0 1px $border-color;
-    }
+@mixin convex($mode: light, $gradient-angle: 145deg) {
+  $theme-values: map.get($themes, $mode);
+  $bg-color: map.get($theme-values, 'bg');
+  
+  & {
+    background: linear-gradient(
+      $gradient-angle,
+      color.scale($bg-color, $lightness: 5%),
+      color.scale($bg-color, $lightness: -5%)
+    );
   }
 }
 
@@ -163,7 +158,7 @@ $themes: (
   }
 }
 
-// Enhanced Focus States
+// Accessibility
 @mixin focus-visible($mode: light) {
   $theme-values: map.get($themes, $mode);
   $focus-ring: map.get($theme-values, 'focus-ring');
@@ -180,59 +175,14 @@ $themes: (
   }
 }
 
-// Color Contrast Utilities
-@function get-contrast-color($background, $light-color, $dark-color) {
-  $luminance: (color.red($background) * 0.299 + color.green($background) * 0.587 + color.blue($background) * 0.114) / 255;
-  @return if($luminance > 0.6, $dark-color, $light-color);
-}
-
-// Component Base Classes
-.neu-base {
-  @include neu-effect($mode: light);
-  @include focus-visible(light);
-
-  & {
-    position: relative;
-    box-sizing: border-box;
-  }
-}
-
-.neu-interactive-base {
-  @include neu-interactive(light);
-
-  & {
-    cursor: pointer;
-    
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      
-      @include contrast-mode {
-        opacity: 0.4;
-      }
-    }
-  }
-}
-
-
-@mixin hover-shadow {
-
-  backface-visibility: hidden;
-
-  transform: translateZ(0);
-
-  -webkit-font-smoothing: subpixel-antialiased;
-
-}
-
-
-
-@mixin hover-fixed {
-
-  transform: translate3d(0, 0, 0);
-
-  backface-visibility: hidden;
-
-  perspective: 1000px;
-
-}
+// Export public API
+@forward 'neumorphix' show 
+  neu-effect, 
+  flat, 
+  concave, 
+  convex, 
+  neu-interactive, 
+  focus-visible,
+  theme-aware,
+  contrast-mode,
+  get-theme-value;
