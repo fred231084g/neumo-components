@@ -1,70 +1,54 @@
-@forward 'variables';
-@forward 'mixins';
-@forward 'devices';
-@forward 'neumorphix';
-
-@forward 'globals';
-// Export public API
-@forward 'neumorphix' show 
-  neu-effect, 
-  flat, 
-  concave, 
-  convex, 
-  neu-interactive, 
-  focus-visible,
-  theme-aware,
-  contrast-mode,
-  get-theme-value;
-
-// Forward public mixins
-
-@forward 'jitterfix' show 
-  hover-shadow,
-  hover-fixed,
-  jitter-shadow,
-  jitter-fixed;
-
-// Import components with namespacing
-@use '../components/NeumoButton/NeumoButton.scss' as button;
-@use '../components/NeumoCard/NeumoCard.scss' as card;
-
-// Core utilities and functions
+// Import core Sass modules
 @use "sass:math";
 @use "sass:map";
 @use "sass:color";
 @use "sass:meta";
 
-// Base variables and settings
+// Import our modules with namespacing
 @use 'variables' as vars;
-
-// Layout and responsive utilities
-@use 'devices' as devices;
-
-// Core mixins and functions
 @use 'mixins' as mix;
-
-// Neumorphic effects
-
-// Animation and interaction utilities
+@use 'devices' as dev;
+@use 'neumorphix' as neu;
 @use 'jitterfix' as jitter;
-
-// Global styles and base design system
 @use 'globals' as *;
 
+// Import components with namespacing
+@use '../components/NeumoButton/NeumoButton.scss' as button;
+@use '../components/NeumoCard/NeumoCard.scss' as card;
+
+// Selectively forward public API
+@forward 'neumorphix' show {
+  neu-effect,
+  flat,
+  concave,
+  convex,
+  neu-interactive,
+  focus-visible,
+  theme-aware,
+  contrast-mode,
+  get-theme-value
+};
+
+@forward 'jitterfix' show {
+  hover-shadow,
+  hover-fixed,
+  jitter-shadow,
+  jitter-fixed
+}
 
 // Theme variables
 :root {
   // Colors
-  --color-neutral-50: #{vars.$color-neutral-50};
-  --color-neutral-100: #{vars.$color-neutral-100};
-  --color-neutral-200: #{vars.$color-neutral-200};
-  --color-neutral-300: #{vars.$color-neutral-300};
-  --color-neutral-400: #{vars.$color-neutral-400};
-  --color-neutral-500: #{vars.$color-neutral-500};
-  --color-neutral-600: #{vars.$color-neutral-600};
-  --color-neutral-700: #{vars.$color-neutral-700};
-  --color-neutral-800: #{vars.$color-neutral-800};
-  --color-neutral-900: #{vars.$color-neutral-900};
+  --color-neutral-50: #{vars.$colors('neutral', 50)};
+  --color-neutral-100: #{vars.$colors('neutral', 100)};
+  --color-neutral-200: #{vars.$colors('neutral', 200)};
+  --color-neutral-300: #{vars.$colors('neutral', 300)};
+  --color-neutral-400: #{vars.$colors('neutral', 400)};
+  --color-neutral-500: #{vars.$colors('neutral', 500)};
+  --color-neutral-600: #{vars.$colors('neutral', 600)};
+  --color-neutral-700: #{vars.$colors('neutral', 700)};
+  --color-neutral-800: #{vars.$colors('neutral', 800)};
+  --color-neutral-900: #{vars.$colors('neutral', 900)};
   
   // Theme colors
   --bg-primary: var(--color-neutral-100);
@@ -90,7 +74,7 @@
   --space-12: 3rem;
   
   // Layout
-  --container-max-width: #{devices.get-breakpoint("desktop", "lg")};
+  --container-max-width: #{dev.get-breakpoint("desktop", "lg")};
   --container-padding: var(--space-4);
   --grid-gap: var(--space-6);
   
@@ -111,6 +95,11 @@
   // Platform-specific
   --safe-area-inset-top: env(safe-area-inset-top, 20px);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+  
+  // Neumorphic settings
+  --neu-shadow-light: #{map.get(vars.$neumorphic, 'shadow', 'light')};
+  --neu-shadow-dark: #{map.get(vars.$neumorphic, 'shadow', 'dark')};
+  --neu-blur: #{map.get(vars.$neumorphic, 'blur')};
 }
 
 // Dark mode
@@ -157,7 +146,6 @@
   }
 }
 
-
 // Base styles
 html {
   font-family: var(--font-sans);
@@ -177,14 +165,12 @@ body {
   color: var(--text-primary);
 }
 
-
-
 // Export modules for component use
 :export {
   breakpoints: {
-    mobile: devices.get-breakpoint("mobile", "md");
-    tablet: devices.get-breakpoint("tablet", "md");
-    desktop: devices.get-breakpoint("desktop", "md");
+    mobile: dev.get-breakpoint("mobile", "md");
+    tablet: dev.get-breakpoint("tablet", "md");
+    desktop: dev.get-breakpoint("desktop", "md");
   }
   
   colors: {
