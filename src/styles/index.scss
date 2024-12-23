@@ -1,3 +1,4 @@
+// src/styles/index.scss
 
 // Core utilities and functions
 @use "sass:math";
@@ -125,5 +126,49 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+// Base styles
+html {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: var(--container-padding);
+  padding-top: var(--safe-area-inset-top);
+  padding-bottom: var(--safe-area-inset-bottom);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+// Import components with namespacing
+@use '../components/NeumoButton/NeumoButton.scss' as button;
+@use '../components/NeumoCard/NeumoCard.scss' as card;
+
+// Export modules for component use
+:export {
+  breakpoints: {
+    mobile: devices.get-breakpoint("mobile", "md");
+    tablet: devices.get-breakpoint("tablet", "md");
+    desktop: devices.get-breakpoint("desktop", "md");
+  }
+  
+  colors: {
+    primary: vars.$color-primary;
+    secondary: vars.$color-secondary;
+    neutral: vars.$color-neutral-500;
+  }
+  
+  spacing: {
+    base: vars.$spacing-base;
+    large: vars.$spacing-large;
+    small: vars.$spacing-small;
   }
 }
