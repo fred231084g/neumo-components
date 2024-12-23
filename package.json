@@ -4,8 +4,9 @@
   "description": "Neumorphism SVG components library",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
-  "umd:main": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
+  "style": "dist/index.css",
+
   "files": [
     "dist",
     "src",

@@ -1,2 +1,5 @@
-export { NeumoButton} from './NeumoButton/NeumoButton';
-export {NeumoCard} from './NeumoCard/NeumoCard';
+// src/components/index.ts
+import '../styles/index.scss';
+
+export * from './NeumoButton/NeumoButton';
+export * from './NeumoCard/NeumoCard';
