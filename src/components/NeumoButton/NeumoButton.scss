@@ -1,73 +1,188 @@
 @use "../../styles/globals.scss";
+@use "../../styles/devices.scss";
+@use "../../styles/neumorphix.scss";
+@use "../../styles/jitterfix.scss";
 
-// Define default styles for PPI components
+// Enhanced root variables for PPI compatibility
 :root {
+  // Core button variables
   --neumo-btn-bg: #e0e0e0;
+  --neumo-btn-text: #333333;
   --neumo-btn-shadow-light: #ffffff;
   --neumo-btn-shadow-dark: #cccccc;
-  --neumo-btn-text: #333;
-  --neumo-btn-hover-scale: 0.1;
-  --neumo-btn-active-scale: 0.2;
+  
+  // Platform-specific variables
+  --neumo-btn-ios-radius: 10px;
+  --neumo-btn-android-radius: 4px;
+  --neumo-btn-web-radius: 8px;
+  
+  // Animation variables
+  --neumo-btn-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --neumo-btn-hover-scale: 1.02;
+  --neumo-btn-active-scale: 0.98;
+  
+  // State variables
   --neumo-btn-disabled-opacity: 0.6;
+  --neumo-btn-focus-ring-color: rgba(0, 122, 255, 0.25);
 }
 
+// Platform-specific mixins
+@mixin neu-button-platform-styles {
+  @include mobile(md) {
+    // Mobile-first base styles
+    padding: 12px 20px;
+    min-height: 44px; // iOS touch target size
+    
+    &.ios {
+      border-radius: var(--neumo-btn-ios-radius);
+      @include neu(
+        var(--neumo-btn-ios-radius),
+        light,
+        8px,
+        16px
+      );
+      
+      // iOS-specific shadow treatment
+      &:active {
+        transform: scale(0.98);
+        @include neu(
+          var(--neumo-btn-ios-radius),
+          light,
+          4px,
+          8px
+        );
+      }
+    }
+    
+    &.android {
+      border-radius: var(--neumo-btn-android-radius);
+      @include neu(
+        var(--neumo-btn-android-radius),
+        light,
+        6px,
+        12px
+      );
+      
+      // Material Design inspired elevation
+      &:active {
+        @include neu(
+          var(--neumo-btn-android-radius),
+          light,
+          2px,
+          4px
+        );
+      }
+    }
+  }
+  
+  @include tablet(md) {
+    // Tablet optimizations
+    padding: 14px 24px;
+    
+    &.ios, &.android {
+      // Adjust for larger touch targets on tablets
+      min-height: 48px;
+    }
+  }
+  
+  @include desktop(md) {
+    // Desktop optimizations
+    &.web {
+      border-radius: var(--neumo-btn-web-radius);
+      @include neu(
+        var(--neumo-btn-web-radius),
+        light,
+        10px,
+        20px
+      );
+      
+      // Enhanced hover effects for desktop
+      @media (hover: hover) {
+        &:hover:not(:disabled) {
+          transform: translateY(-1px) scale(var(--neumo-btn-hover-scale));
+          @include neu(
+            var(--neumo-btn-web-radius),
+            light,
+            12px,
+            24px
+          );
+        }
+      }
+    }
+  }
+}
+
+// Variant mixins
+@mixin neu-button-variant($variant) {
+  @if $variant == 'flat' {
+    @include flat(315deg, light);
+  } @else if $variant == 'concave' {
+    @include concave(315deg, light);
+  } @else if $variant == 'convex' {
+    @include convex(light);
+  }
+}
+
+// Size mixins
+@mixin neu-button-size($size) {
+  @if $size == 'sm' {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+  } @else if $size == 'lg' {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+  }
+}
+
+// Focus handling
+@mixin neu-button-focus {
+  &:focus-visible {
+    outline: 2px solid var(--neumo-btn-focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+// Main button class
 .neumo-button {
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 12px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 0;
   border: none;
-  outline: none;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  background: var(--neumo-btn-bg);
-  color: var(--neumo-btn-text);
-
-  // Neumorphism effect
-  @include neu(12px, light, 10px, 20px);
-
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-  // Hover state
-  &:hover {
-    @include jitterfix.hover-transform; // Use transform for hover effect
-    @include apply-scale-transform(var(--neumo-btn-hover-scale));
-  }
-
-  // Active state
-  &:active {
-    @include apply-scale-transform(var(--neumo-btn-active-scale));
-    @include neu(
-      12px,
-      light,
-      10px,
-      20px
-    );
-  }
-
-  // Disabled state
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  
+  // Apply base neumorphic effect
+  @include neu(var(--neumo-btn-web-radius), light);
+  
+  // Platform-specific styles
+  @include neu-button-platform-styles;
+  
+  // Focus styles
+  @include neu-button-focus;
+  
+  // Transitions
+  transition: var(--neumo-btn-transition);
+  
+  // States
   &:disabled {
-    cursor: not-allowed;
     opacity: var(--neumo-btn-disabled-opacity);
-    @include neu(
-      12px,
-      light,
-      10px,
-      20px
-    );
+    cursor: not-allowed;
+    pointer-events: none;
   }
-}
-
-// Jitterfix Integration: Add variants for box-shadow and fixed size
-.neumo-button.jitter-shadow {
-  &:hover {
-    @include jitterfix.hover-shadow; // Use box-shadow hover effect
+  
+  // Apply jitterfix for smoother animations
+  &.jitter-shadow {
+    @include jitterfix.hover-shadow;
   }
-}
-
-.neumo-button.jitter-fixed {
-  min-height: 50px; // Set consistent size
-  &:hover {
-    @include jitterfix.hover-fixed; // Use fixed size hover effect
+  
+  &.jitter-fixed {
+    @include jitterfix.hover-fixed;
   }
 }
