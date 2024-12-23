@@ -1,35 +1,42 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('neumo-button')
-export class NeumoButton extends LitElement {
-  // Core properties aligned with PPI principles
-  @property({ type: String }) label: string = 'Click Me';
-  @property({ type: Boolean }) disabled: boolean = false;
+@customElement('neumo-card')
+export class NeumoCard extends LitElement {
+  // Core PPI properties
+  @property({ type: String }) platform: 'web' | 'ios' | 'android' = 'web';
   @property({ type: String }) variant: 'flat' | 'concave' | 'convex' = 'flat';
   @property({ type: String }) size: 'sm' | 'md' | 'lg' = 'md';
-  @property({ type: String }) platform: 'web' | 'ios' | 'android' = 'web';
+  @property({ type: Boolean }) interactive: boolean = false;
   
   // Theme properties
-  @property({ type: String }) bgColor: string = '#e0e0e0';
-  @property({ type: String }) textColor: string = '#333';
+  @property({ type: String }) bgColor: string = '#f0f0f0';
   @property({ type: String }) shadowLight: string = '#ffffff';
-  @property({ type: String }) shadowDark: string = '#cccccc';
-
-  // Platform-specific properties
-  @property({ type: Boolean }) useHaptics: boolean = false;
-  @property({ type: Boolean }) useRipple: boolean = false;
+  @property({ type: String }) shadowDark: string = '#d1d1d1';
+  
+  // Layout properties
+  @property({ type: String }) width: string = 'auto';
+  @property({ type: String }) height: string = 'auto';
+  @property({ type: String }) padding: string = '20px';
+  
+  // Interactive properties
+  @property({ type: Boolean }) rippleEffect: boolean = false;
+  @property({ type: Boolean }) hoverEffect: boolean = true;
+  @property({ type: Boolean }) pressEffect: boolean = true;
 
   static styles = css`
     :host {
-      --neumo-btn-bg: var(--button-bg, #e0e0e0);
-      --neumo-btn-text: var(--button-text, #333);
-      --neumo-btn-shadow-light: var(--button-shadow-light, #ffffff);
-      --neumo-btn-shadow-dark: var(--button-shadow-dark, #cccccc);
-      --neumo-btn-hover-scale: 0.1;
-      --neumo-btn-active-scale: 0.2;
-      --neumo-btn-disabled-opacity: 0.6;
-      display: inline-block;
+      --neumo-card-bg: var(--card-bg, #f0f0f0);
+      --neumo-card-shadow-light: var(--card-shadow-light, #ffffff);
+      --neumo-card-shadow-dark: var(--card-shadow-dark, #d1d1d1);
+      --neumo-card-radius: var(--card-radius, 16px);
+      --neumo-card-padding: var(--card-padding, 20px);
+      --neumo-card-hover-scale: 1.02;
+      --neumo-card-press-scale: 0.98;
+      
+      display: block;
+      width: var(--card-width, auto);
+      height: var(--card-height, auto);
       
       /* Mobile-first defaults */
       -webkit-tap-highlight-color: transparent;
@@ -37,52 +44,30 @@ export class NeumoButton extends LitElement {
       user-select: none;
     }
 
-    button {
-      all: unset;
+    .neumo-card {
       position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--neumo-btn-padding, 12px 24px);
-      border-radius: var(--neumo-btn-radius, 12px);
-      background: var(--neumo-btn-bg);
-      color: var(--neumo-btn-text);
-      font-size: var(--neumo-btn-font-size, 1rem);
-      font-weight: 600;
-      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      background: var(--neumo-card-bg);
+      border-radius: var(--neumo-card-radius);
+      padding: var(--neumo-card-padding);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
 
       /* Platform-specific styles handled by mixins */
-      @include neu-button-platform-styles();
-    }
-
-    /* Size variants */
-    :host([size="sm"]) button {
-      padding: 8px 16px;
-      font-size: 0.875rem;
-    }
-
-    :host([size="lg"]) button {
-      padding: 16px 32px;
-      font-size: 1.125rem;
+      @include neu-card-platform-styles();
     }
 
     /* Platform-specific hover states */
     @media (hover: hover) {
-      button:hover:not(:disabled) {
-        transform: translateY(-1px) scale(1.02);
+      .neumo-card.interactive:hover {
+        transform: translateY(-2px) scale(var(--neumo-card-hover-scale));
       }
     }
 
-    /* Active state */
-    button:active:not(:disabled) {
-      transform: translateY(1px) scale(0.98);
-    }
-
-    /* Disabled state */
-    button:disabled {
-      cursor: not-allowed;
-      opacity: var(--neumo-btn-disabled-opacity);
+    /* Active/press state */
+    .neumo-card.interactive:active {
+      transform: translateY(1px) scale(var(--neumo-card-press-scale));
     }
 
     /* Ripple effect for Android */
@@ -100,45 +85,58 @@ export class NeumoButton extends LitElement {
         opacity: 0;
       }
     }
+
+    /* Size variants */
+    :host([size="sm"]) .neumo-card {
+      --neumo-card-padding: 12px;
+      --neumo-card-radius: 12px;
+    }
+
+    :host([size="lg"]) .neumo-card {
+      --neumo-card-padding: 24px;
+      --neumo-card-radius: 20px;
+    }
   `;
 
   render() {
     return html`
-      <button
-        class=${this._getButtonClasses()}
-        ?disabled=${this.disabled}
-        style=${this._getButtonStyles()}
+      <div
+        class=${this._getCardClasses()}
+        style=${this._getCardStyles()}
         @click=${this._handleClick}
         @touchstart=${this._handleTouchStart}
         @touchend=${this._handleTouchEnd}
       >
-        ${this.label}
         <slot></slot>
-      </button>
+      </div>
     `;
   }
 
-  private _getButtonClasses() {
-    return `neumo-button ${this.variant} ${this.platform} ${this.size}`;
+  private _getCardClasses() {
+    return `neumo-card ${this.variant} ${this.platform} ${this.size} ${
+      this.interactive ? 'interactive' : ''
+    }`;
   }
 
-  private _getButtonStyles() {
+  private _getCardStyles() {
     return `
-      --button-bg: ${this.bgColor};
-      --button-text: ${this.textColor};
-      --button-shadow-light: ${this.shadowLight};
-      --button-shadow-dark: ${this.shadowDark};
+      --card-bg: ${this.bgColor};
+      --card-shadow-light: ${this.shadowLight};
+      --card-shadow-dark: ${this.shadowDark};
+      --card-width: ${this.width};
+      --card-height: ${this.height};
+      --card-padding: ${this.padding};
     `;
   }
 
   private _handleClick(e: MouseEvent) {
-    if (this.disabled) return;
+    if (!this.interactive) return;
     
-    if (this.platform === 'android' && this.useRipple) {
+    if (this.platform === 'android' && this.rippleEffect) {
       this._createRipple(e);
     }
 
-    this.dispatchEvent(new CustomEvent('neumo-click', {
+    this.dispatchEvent(new CustomEvent('neumo-card-click', {
       detail: { 
         platform: this.platform,
         variant: this.variant,
@@ -150,9 +148,9 @@ export class NeumoButton extends LitElement {
   }
 
   private _handleTouchStart() {
-    if (this.disabled) return;
+    if (!this.interactive) return;
     
-    if (this.platform === 'ios' && this.useHaptics) {
+    if (this.platform === 'ios') {
       // Trigger haptic feedback if available
       if ('vibrate' in navigator) {
         navigator.vibrate(10);
@@ -165,9 +163,9 @@ export class NeumoButton extends LitElement {
   }
 
   private _createRipple(event: MouseEvent) {
-    const button = event.currentTarget as HTMLElement;
+    const card = event.currentTarget as HTMLElement;
     const ripple = document.createElement('span');
-    const rect = button.getBoundingClientRect();
+    const rect = card.getBoundingClientRect();
     
     const size = Math.max(rect.width, rect.height);
     const x = event.clientX - rect.left - size / 2;
@@ -178,7 +176,7 @@ export class NeumoButton extends LitElement {
     ripple.style.top = `${y}px`;
     ripple.classList.add('ripple');
     
-    button.appendChild(ripple);
+    card.appendChild(ripple);
     
     ripple.addEventListener('animationend', () => {
       ripple.remove();
@@ -188,6 +186,6 @@ export class NeumoButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'neumo-button': NeumoButton;
+    'neumo-card': NeumoCard;
   }
 }

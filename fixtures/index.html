@@ -2,84 +2,243 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f0f0f0">
   <title>Neumo Components Showcase</title>
-  <!-- Include the bundled styles -->
   <link rel="stylesheet" href="../dist/styles.css">
-  <!-- Include the JavaScript bundle -->
   <script type="module" src="../dist/index.esm.js"></script>
   <style>
+    :root {
+      /* Theme Colors */
+      --primary-bg: #f0f0f0;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --accent-color: #0066ff;
+      
+      /* Platform-specific variables */
+      --ios-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --android-font: Roboto, 'Segoe UI', sans-serif;
+      --web-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Mobile-first base styles */
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f8f8f8;
-      color: #333;
+      margin: 0;
+      padding: 20px;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
       line-height: 1.6;
+      font-family: var(--web-font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin: 2rem 0;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 700;
     }
 
-    neumo-card {
-      display: block;
-      margin: 20px auto;
-      max-width: 600px;
-      padding: 20px;
-      box-sizing: border-box;
+    .platform-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
-    neumo-button {
-      display: block;
-      margin-top: 20px;
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .showcase-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+    }
+
+    /* Platform-specific styles */
+    .ios-platform {
+      font-family: var(--ios-font);
+    }
+
+    .android-platform {
+      font-family: var(--android-font);
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary-bg: #1a1a1a;
+        --text-primary: #ffffff;
+        --text-secondary: #bbbbbb;
+      }
+    }
+
+    /* High contrast support */
+    @media (prefers-contrast: high) {
+      :root {
+        --text-primary: #000000;
+        --text-secondary: #000000;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Neumo Components Showcase</h1>
+  <div class="container">
+    <h1>Neumo Components Showcase</h1>
 
-  <neumo-card>
-    <h2>Welcome to Neumorphism</h2>
-    <p>This is a card component styled with neumorphism principles.</p>
-    <neumo-button 
-      label="Click Me"
-      platform="ios"
-      variant="convex"
-      size="md"
-      useHaptics="true"
-    ></neumo-button>  </neumo-card>
+    <div class="platform-switcher">
+      <neumo-button label="iOS" platform="ios" variant="flat" size="sm" id="ios-switch"></neumo-button>
+      <neumo-button label="Android" platform="android" variant="flat" size="sm" id="android-switch"></neumo-button>
+      <neumo-button label="Web" platform="web" variant="flat" size="sm" id="web-switch"></neumo-button>
+    </div>
 
-  <neumo-card>
-    <h2>Another Card</h2>
-    <p>This card demonstrates how components can be reused.</p>
-    <neumo-button label="Another Button"></neumo-button>
-  </neumo-card>
+    <div class="showcase-section">
+      <h2 class="section-title">Basic Components</h2>
+      <div class="showcase-grid">
+        <neumo-card platform="web" variant="flat" size="md" interactive="true">
+          <h3>Default Card</h3>
+          <p>Basic card with default styling and interactions.</p>
+          <neumo-button 
+            label="Default Button"
+            platform="web"
+            variant="flat"
+            size="md"
+          ></neumo-button>
+        </neumo-card>
 
-  <neumo-card bgColor="#dfe6e9" shadowLight="#ffffff" shadowDark="#b2bec3">
-    <h2>Custom Styled Card</h2>
-    <p>This card uses custom background and shadow colors to demonstrate flexibility.</p>
-    <neumo-button
-      label="Custom Button"
-      bgColor="#74b9ff"
-      textColor="#ffffff"
-      shadowLight="#dfe6e9"
-      shadowDark="#0984e3"
-    ></neumo-button>
-  </neumo-card>
+        <neumo-card platform="ios" variant="convex" size="md" interactive="true">
+          <h3>iOS Style</h3>
+          <p>Card with iOS-specific styling and haptic feedback.</p>
+          <neumo-button 
+            label="iOS Button"
+            platform="ios"
+            variant="convex"
+            size="md"
+            useHaptics="true"
+          ></neumo-button>
+        </neumo-card>
 
-  <neumo-card>
-    <h2>Interactive Card</h2>
-    <p>This card showcases hover and active state styling for better interactivity.</p>
-    <neumo-button label="Interactive Button"></neumo-button>
-  </neumo-card>
+        <neumo-card platform="android" variant="flat" size="md" interactive="true">
+          <h3>Android Style</h3>
+          <p>Card with Material Design influenced styling.</p>
+          <neumo-button 
+            label="Android Button"
+            platform="android"
+            variant="flat"
+            size="md"
+            rippleEffect="true"
+          ></neumo-button>
+        </neumo-card>
+      </div>
+    </div>
+
+    <div class="showcase-section">
+      <h2 class="section-title">Custom Styling</h2>
+      <div class="showcase-grid">
+        <neumo-card 
+          platform="web"
+          variant="flat"
+          bgColor="#dfe6e9"
+          shadowLight="#ffffff"
+          shadowDark="#b2bec3"
+          interactive="true"
+        >
+          <h3>Custom Colors</h3>
+          <p>Card with custom background and shadow colors.</p>
+          <neumo-button
+            label="Custom Button"
+            platform="web"
+            variant="flat"
+            bgColor="#74b9ff"
+            textColor="#ffffff"
+            shadowLight="#dfe6e9"
+            shadowDark="#0984e3"
+          ></neumo-button>
+        </neumo-card>
+
+        <neumo-card 
+          platform="web"
+          variant="concave"
+          size="lg"
+          interactive="true"
+        >
+          <h3>Size Variants</h3>
+          <p>Demonstrating different component sizes.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <neumo-button label="Small" size="sm"></neumo-button>
+            <neumo-button label="Medium" size="md"></neumo-button>
+            <neumo-button label="Large" size="lg"></neumo-button>
+          </div>
+        </neumo-card>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // Add event listener to NeumoButton
+    // Platform switching logic
+    const platformButtons = {
+      'ios-switch': 'ios',
+      'android-switch': 'android',
+      'web-switch': 'web'
+    };
+
+    Object.entries(platformButtons).forEach(([buttonId, platform]) => {
+      document.getElementById(buttonId).addEventListener('neumo-click', () => {
+        // Update all components to the selected platform
+        document.querySelectorAll('neumo-card, neumo-button').forEach(component => {
+          component.setAttribute('platform', platform);
+        });
+
+        // Update body class for platform-specific fonts
+        document.body.className = `${platform}-platform`;
+      });
+    });
+
+    // Component event handling
     document.querySelectorAll('neumo-button').forEach(button => {
       button.addEventListener('neumo-click', event => {
-        console.log(event.detail.message);
+        console.log('Button clicked:', event.detail);
       });
+    });
+
+    document.querySelectorAll('neumo-card[interactive="true"]').forEach(card => {
+      card.addEventListener('neumo-card-click', event => {
+        console.log('Card clicked:', event.detail);
+      });
+    });
+
+    // Platform detection
+    const detectPlatform = () => {
+      const ua = navigator.userAgent;
+      if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
+      if (/Android/.test(ua)) return 'android';
+      return 'web';
+    };
+
+    // Set initial platform
+    const initialPlatform = detectPlatform();
+    document.body.className = `${initialPlatform}-platform`;
+    document.querySelectorAll('neumo-card, neumo-button').forEach(component => {
+      if (!component.hasAttribute('platform')) {
+        component.setAttribute('platform', initialPlatform);
+      }
     });
   </script>
 </body>
