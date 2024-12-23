@@ -3,6 +3,7 @@
 @forward 'devices';
 @forward 'neumorphix';
 @forward 'jitterfix';
+@forward 'globals';
 
 // Import components with namespacing
 @use '../components/NeumoButton/NeumoButton.scss' as button;
