@@ -37,7 +37,7 @@
   user-select: none;
   
   // Base neumorphic effect
-  @include neumorphix.neu(
+  @include neumorphix.neu-effect(
     $radius: var(--neumo-btn-web-radius),
     $mode: light,
     $offset: 8px,
@@ -49,7 +49,7 @@
     &.ios {
       border-radius: var(--neumo-btn-ios-radius);
       
-      @include neumorphix.neu(
+      @include neumorphix.neu-effect(
         $radius: var(--neumo-btn-ios-radius),
         $mode: light,
         $offset: 6px,
@@ -59,7 +59,7 @@
       &:active:not(:disabled) {
         transform: scale(0.98);
         
-        @include neumorphix.neu(
+        @include neumorphix.neu-effect(
           $radius: var(--neumo-btn-ios-radius),
           $mode: light,
           $offset: 4px,
@@ -71,7 +71,7 @@
     &.android {
       border-radius: var(--neumo-btn-android-radius);
       
-      @include neumorphix.neu(
+      @include neumorphix.neu-effect(
         $radius: var(--neumo-btn-android-radius),
         $mode: light,
         $offset: 4px,
@@ -79,7 +79,7 @@
       );
 
       &:active:not(:disabled) {
-        @include neumorphix.neu(
+        @include neumorphix.neu-effect(
           $radius: var(--neumo-btn-android-radius),
           $mode: light,
           $offset: 2px,
