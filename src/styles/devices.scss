@@ -1,10 +1,9 @@
-// devices.scss
 @use "sass:map";
-// @use "variables" as vars;
+@use "variables" as vars;
 
 // Get breakpoint value helper
 @function get-breakpoint($device, $size) {
-  @return map.get(map.get($breakpoints, $device), $size);
+  @return map.get(map.get(vars.$breakpoints, $device), $size);
 }
 
 // Mobile-first mixins
@@ -101,4 +100,20 @@ $container-widths: (
     padding-right: 2rem;
     padding-left: 2rem;
   }
+}
+
+// Safe area insets for modern mobile devices
+@mixin safe-area-insets {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+// Export mixins
+:export {
+  containerSm: map.get($container-widths, "sm");
+  containerMd: map.get($container-widths, "md");
+  containerLg: map.get($container-widths, "lg");
+  containerXl: map.get($container-widths, "xl");
 }
