@@ -1,7 +1,7 @@
 // NeumoCard.scss
 @use "sass:map";
 @use "../../styles/devices" as devices;
-@use "../../styles/neumorphix" as neumorphix;
+@use "../../styles/neumorphix" as neu;
 @use "../../styles/jitterfix" as jitterfix;
 
 // Root variables
@@ -41,7 +41,7 @@
   padding: var(--neumo-card-padding, 16px);
   
   // Apply base neumorphic effect
-  @include neumorphix.neu(
+  @include neu.neu-effect(
     $radius: var(--neumo-card-web-radius),
     $mode: light,
     $offset: var(--neumo-card-elevation-2),
@@ -53,7 +53,7 @@
     &.ios {
       border-radius: var(--neumo-card-ios-radius);
       
-      @include neumorphix.neu(
+      @include neu.neu-effect(
         $radius: var(--neumo-card-ios-radius),
         $mode: light,
         $offset: var(--neumo-card-elevation-2),
@@ -61,7 +61,7 @@
       );
 
       &.interactive:active {
-        @include neumorphix.neu(
+        @include neu.neu-effect(
           $radius: var(--neumo-card-ios-radius),
           $mode: light,
           $offset: var(--neumo-card-elevation-1),
@@ -73,7 +73,7 @@
     &.android {
       border-radius: var(--neumo-card-android-radius);
       
-      @include neumorphix.neu(
+      @include neu.neu-effect(
         $radius: var(--neumo-card-android-radius),
         $mode: light,
         $offset: var(--neumo-card-elevation-1),
@@ -84,7 +84,7 @@
         transition: box-shadow 0.2s ease-in-out;
         
         &:active {
-          @include neumorphix.neu(
+          @include neu.neu-effect(
             $radius: var(--neumo-card-android-radius),
             $mode: light,
             $offset: var(--neumo-card-elevation-1),
@@ -100,7 +100,7 @@
     padding: var(--neumo-card-padding, 20px);
     
     &.ios, &.android {
-      @include neumorphix.neu(
+      @include neu.neu-effect(
         $radius: var(--neumo-card-ios-radius),
         $mode: light,
         $offset: var(--neumo-card-elevation-2),
@@ -114,7 +114,7 @@
     &.web {
       border-radius: var(--neumo-card-web-radius);
       
-      @include neumorphix.neu(
+      @include neu.neu-effect(
         $radius: var(--neumo-card-web-radius),
         $mode: light,
         $offset: var(--neumo-card-elevation-2),
@@ -126,7 +126,7 @@
           &:hover {
             transform: translateY(-2px) scale(var(--neumo-card-hover-scale));
             
-            @include neumorphix.neu(
+            @include neu.neu-effect(
               $radius: var(--neumo-card-web-radius),
               $mode: light,
               $offset: var(--neumo-card-elevation-3),
@@ -141,6 +141,7 @@
   // Interactive states
   &.interactive {
     cursor: pointer;
+    @include neu.neu-interactive(light);
     
     &.jitter-shadow {
       @include jitterfix.hover-shadow;
@@ -153,15 +154,15 @@
 
   // Variants
   &.flat {
-    @include neumorphix.flat($mode: light);
+    @include neu.flat($mode: light);
   }
 
   &.concave {
-    @include neumorphix.concave($mode: light);
+    @include neu.concave($mode: light);
   }
 
   &.convex {
-    @include neumorphix.convex($mode: light);
+    @include neu.convex($mode: light);
   }
 
   // Sizes
@@ -184,7 +185,9 @@
     overflow: hidden;
   }
 
-  // High-contrast support
+  // Focus and contrast support
+  @include neu.focus-visible(light);
+  
   @media (prefers-contrast: high) {
     border: 1px solid #000000;
     box-shadow: none !important;
