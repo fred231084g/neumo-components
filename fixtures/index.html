@@ -1,4 +1,266 @@
-size="md"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f0f0f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+  <title>Neumo Components Showcase</title>
+  <link rel="stylesheet" href="../dist/styles.css">
+  <script type="module" src="../dist/index.esm.js"></script>
+
+  <style>
+    /* Enhanced root variables with better contrast */
+    :root {
+      /* Core Theme Variables */
+      --color-neutral-50: #fafafa;
+      --color-neutral-100: #f0f0f0;
+      --color-neutral-900: #171717;
+      --color-primary-600: #2563eb;
+      
+      /* Dynamic Theme Colors */
+      --bg-primary: var(--color-neutral-100);
+      --bg-secondary: var(--color-neutral-50);
+      --text-primary: var(--color-neutral-900);
+      --text-secondary: #525252;
+      --accent-color: var(--color-primary-600);
+      
+      /* Interactive States */
+      --focus-ring-color: var(--color-primary-600);
+      --hover-opacity: 0.05;
+      --active-opacity: 0.1;
+      
+      /* Platform Typography */
+      --ios-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --android-font: Roboto, 'Segoe UI', sans-serif;
+      --web-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      
+      /* Layout */
+      --safe-area-inset-top: env(safe-area-inset-top, 20px);
+      --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+      --container-max-width: 1200px;
+      --container-padding: 20px;
+      --grid-gap: 2rem;
+    }
+
+    /* Enhanced dark mode with better contrast */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #262626;
+        --text-primary: #ffffff;
+        --text-secondary: #a3a3a3;
+        --hover-opacity: 0.1;
+        --active-opacity: 0.2;
+      }
+    }
+
+    /* High contrast mode enhancements */
+    @media (prefers-contrast: more) {
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #ffffff;
+        --text-primary: #000000;
+        --text-secondary: #000000;
+        --accent-color: #000000;
+        --focus-ring-color: #000000;
+      }
+
+      * {
+        border-color: currentColor !important;
+        text-decoration-thickness: 2px !important;
+      }
+    }
+
+    /* Base styles with enhanced accessibility */
+    body {
+      margin: 0;
+      padding: var(--container-padding);
+      padding-top: var(--safe-area-inset-top);
+      padding-bottom: var(--safe-area-inset-bottom);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: var(--web-font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Enhanced container with better spacing */
+    .container {
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+    }
+
+    /* Enhanced typography with better contrast */
+    h1 {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    h2, h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin: 0 0 1rem;
+    }
+
+    /* Enhanced grid system */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: var(--grid-gap);
+      margin-bottom: var(--grid-gap);
+    }
+
+    /* Enhanced section styling */
+    .showcase-section {
+      margin-bottom: 3rem;
+
+      .section-title {
+        color: var(--text-secondary);
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        
+        @media (prefers-contrast: more) {
+          color: var(--text-primary);
+          border-bottom: 2px solid currentColor;
+          padding-bottom: 0.5rem;
+        }
+      }
+    }
+
+    /* Platform-specific enhancements */
+    .platform-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: var(--bg-secondary);
+
+      @media (prefers-contrast: more) {
+        border: 2px solid currentColor;
+      }
+    }
+
+    /* Motion reduction */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .custom-button-wrapper {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Neumo Components Showcase</h1>
+
+    <!-- Enhanced Platform Switcher -->
+    <div class="platform-switcher" role="toolbar" aria-label="Platform selection">
+      <neumo-button 
+        label="iOS" 
+        platform="ios" 
+        variant="flat" 
+        size="sm" 
+        id="ios-switch"
+        aria-pressed="false"
+      ></neumo-button>
+      <neumo-button 
+        label="Android" 
+        platform="android" 
+        variant="flat" 
+        size="sm" 
+        id="android-switch"
+        aria-pressed="false"
+      ></neumo-button>
+      <neumo-button 
+        label="Web" 
+        platform="web" 
+        variant="flat" 
+        size="sm" 
+        id="web-switch"
+        aria-pressed="true"
+      ></neumo-button>
+    </div>
+
+    <!-- Basic Components Section -->
+    <section class="showcase-section">
+      <h2 class="section-title">Basic Components</h2>
+      <div class="showcase-grid">
+        <!-- Default Card -->
+        <neumo-card 
+          platform="web" 
+          variant="flat" 
+          size="md" 
+          interactive="true"
+          role="button"
+          aria-label="Default card example"
+        >
+          <h3>Default Card</h3>
+          <p>Basic card with default styling and interactions.</p>
+          <neumo-button 
+            label="Default Button"
+            platform="web"
+            variant="flat"
+            size="md"
+          ></neumo-button>
+        </neumo-card>
+
+        <!-- iOS Style Card -->
+        <neumo-card 
+          platform="ios" 
+          variant="convex" 
+          size="md" 
+          interactive="true"
+          role="button"
+          aria-label="iOS style card example"
+        >
+          <h3>iOS Style</h3>
+          <p>Card with iOS-specific styling and haptic feedback.</p>
+          <neumo-button 
+            label="iOS Button"
+            platform="ios"
+            variant="convex"
+            size="md"
+            useHaptics="true"
+          ></neumo-button>
+        </neumo-card>
+
+        <!-- Android Style Card -->
+        <neumo-card 
+          platform="android" 
+          variant="flat" 
+          size="md" 
+          interactive="true"
+          role="button"
+          aria-label="Android style card example"
+        >
+          <h3>Android Style</h3>
+          <p>Card with Material Design influenced styling.</p>
+          <neumo-button 
+            label="Android Button"
+            platform="android"
+            variant="flat"
+            size="md"
             rippleEffect="true"
             aria-label="Material Design button example"
           ></neumo-button>
@@ -69,6 +331,6 @@ size="md"
   </div>
 
   <script src="./PlatformManager.js"></script>
-   
+  <script src="./index.js"></script>
 </body>
 </html>
