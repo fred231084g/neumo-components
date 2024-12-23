@@ -58,7 +58,7 @@
   --hover-opacity: 0.05;
   --active-opacity: 0.1;
   --disabled-opacity: 0.5;
-  --focus-ring-color: #{vars.$focus-ring-color};
+  $focus-ring-color: rgba(59, 130, 246, 0.5);
   
   // Spacing
   --space-1: 0.25rem;
