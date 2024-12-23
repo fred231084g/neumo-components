@@ -1,25 +1,100 @@
-// Screen sizes
-$desktop-xs: 1024px;
-$desktop-sm: 1280px;
-$desktop-md: 1440px;
-$desktop-lg: 1680px;
-$desktop-xl: 1920px;
+// _variables.scss
+// Color System
+$colors: (
+  'neutral': (
+    50: #fafafa,
+    100: #f0f0f0,
+    200: #e4e4e4,
+    300: #d1d1d1,
+    400: #a3a3a3,
+    500: #737373,
+    600: #525252,
+    700: #404040,
+    800: #262626,
+    900: #171717
+  )
+);
 
-$mobile-xs: 360px;
-$mobile-sm: 375px;
-$mobile-md: 414px;
-$mobile-lg: 480px;
-$mobile-xl: 640px;
+// Screen Breakpoints
+$breakpoints: (
+  'desktop': (
+    'xs': 1024px,
+    'sm': 1280px,
+    'md': 1440px,
+    'lg': 1680px,
+    'xl': 1920px
+  ),
+  'mobile': (
+    'xs': 360px,
+    'sm': 375px,
+    'md': 414px,
+    'lg': 480px,
+    'xl': 640px
+  ),
+  'tablet': (
+    'xs': 601px,
+    'sm': 768px,
+    'md': 960px,
+    'lg': 1024px,
+    'xl': 1280px
+  )
+);
 
-$tablet-xs: 601px;
-$tablet-sm: 768px;
-$tablet-md: 960px;
-$tablet-lg: 1024px;
-$tablet-xl: 1280px;
+// Neumorphic Configuration
+$neumorphic: (
+  'shadow': (
+    'light': 5px,
+    'dark': -5px
+  ),
+  'blur': 10px,
+  'colors': (
+    'light': #ffffff,
+    'dark': #000000
+  )
+);
 
-// Neumorphic settings
-$neu-shadow-light: 5px;
-$neu-shadow-dark: -5px;
-$neu-blur: 10px;
-$neu-light-color: #ffffff;
-$neu-dark-color: #000000;
+// Functions to access nested maps
+@function get-color($color, $shade) {
+  @return map-get(map-get($colors, $color), $shade);
+}
+
+@function get-breakpoint($device, $size) {
+  @return map-get(map-get($breakpoints, $device), $size);
+}
+
+@function get-neumorphic($category, $value) {
+  @return map-get(map-get($neumorphic, $category), $value);
+}
+
+// CSS Custom Properties Export
+:root {
+  // Colors
+  @each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+      --color-#{$color}-#{$shade}: #{$value};
+    }
+  }
+
+  // Breakpoints
+  @each $device, $sizes in $breakpoints {
+    @each $size, $value in $sizes {
+      --breakpoint-#{$device}-#{$size}: #{$value};
+    }
+  }
+
+  // Neumorphic
+  --neu-shadow-light: #{get-neumorphic('shadow', 'light')};
+  --neu-shadow-dark: #{get-neumorphic('shadow', 'dark')};
+  --neu-blur: #{map-get($neumorphic, 'blur')};
+  --neu-light-color: #{get-neumorphic('colors', 'light')};
+  --neu-dark-color: #{get-neumorphic('colors', 'dark')};
+}
+
+// Export variables
+:export {
+  @each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+      color-#{$color}-#{$shade}: $value;
+    }
+  }
+}
