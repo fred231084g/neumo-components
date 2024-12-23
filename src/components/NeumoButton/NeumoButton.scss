@@ -119,15 +119,18 @@
 
   // Variants
   &.flat {
-    @include neumorphix.flat($mode: light);
+    box-shadow: none;
   }
 
-  &.concave {
-    @include neumorphix.concave($mode: light);
+  &.pressed {
+    transform: translateY(1px);
+    box-shadow: var(--neumo-btn-shadow-dark) 2px 2px 4px inset,
+                var(--neumo-btn-shadow-light) -2px -2px 4px inset;
   }
 
-  &.convex {
-    @include neumorphix.convex($mode: light);
+  &.raised {
+    box-shadow: var(--neumo-btn-shadow-light) -2px -2px 4px,
+                var(--neumo-btn-shadow-dark) 2px 2px 4px;
   }
 
   // Jitterfix integration
