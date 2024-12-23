@@ -2,6 +2,7 @@
 @use 'sass:meta';
 @use 'sass:map';
 
+@forward 'neumorphix';
 // Enhanced Theme Configuration
 $themes: (
   light: (
