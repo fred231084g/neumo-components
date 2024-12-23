@@ -1,9 +1,11 @@
-@use "../../styles/globals.scss";
-@use "../../styles/devices.scss";
-@use "../../styles/neumorphix.scss";
-@use "../../styles/jitterfix.scss";
+// NeumoCard.scss
+@use "sass:map";
+@forward "../../styles/globals";
+@use "../../styles/devices" as devices;
+@use "../../styles/neumorphix" as neumorphix;
+@use "../../styles/jitterfix" as jitterfix;
 
-// Enhanced root variables for PPI compatibility
+// Root variables
 :root {
   // Core card variables
   --neumo-card-bg: #f0f0f0;
@@ -26,123 +28,6 @@
   --neumo-card-elevation-3: 12px;
 }
 
-// Platform-specific mixins
-@mixin neu-card-platform-styles {
-  @include mobile(md) {
-    // Mobile-first base styles
-    padding: var(--neumo-card-padding, 16px);
-    
-    &.ios {
-      border-radius: var(--neumo-card-ios-radius);
-      @include neu(
-        var(--neumo-card-ios-radius),
-        light,
-        var(--neumo-card-elevation-2),
-        20px
-      );
-      
-      // iOS-specific shadow treatment
-      &.interactive:active {
-        @include neu(
-          var(--neumo-card-ios-radius),
-          light,
-          var(--neumo-card-elevation-1),
-          10px
-        );
-      }
-    }
-    
-    &.android {
-      border-radius: var(--neumo-card-android-radius);
-      @include neu(
-        var(--neumo-card-android-radius),
-        light,
-        var(--neumo-card-elevation-1),
-        15px
-      );
-      
-      // Material Design inspired elevation
-      &.interactive {
-        transition: box-shadow 0.2s ease-in-out;
-        
-        &:active {
-          @include neu(
-            var(--neumo-card-android-radius),
-            light,
-            var(--neumo-card-elevation-1),
-            10px
-          );
-        }
-      }
-    }
-  }
-  
-  @include tablet(md) {
-    // Tablet optimizations
-    padding: var(--neumo-card-padding, 20px);
-    
-    &.ios, &.android {
-      // Adjusted elevation for tablets
-      @include neu(
-        var(--neumo-card-ios-radius),
-        light,
-        var(--neumo-card-elevation-2),
-        25px
-      );
-    }
-  }
-  
-  @include desktop(md) {
-    // Desktop optimizations
-    &.web {
-      border-radius: var(--neumo-card-web-radius);
-      @include neu(
-        var(--neumo-card-web-radius),
-        light,
-        var(--neumo-card-elevation-2),
-        30px
-      );
-      
-      // Enhanced hover effects for desktop
-      &.interactive {
-        @media (hover: hover) {
-          &:hover {
-            transform: translateY(-2px) scale(var(--neumo-card-hover-scale));
-            @include neu(
-              var(--neumo-card-web-radius),
-              light,
-              var(--neumo-card-elevation-3),
-              35px
-            );
-          }
-        }
-      }
-    }
-  }
-}
-
-// Variant mixins
-@mixin neu-card-variant($variant) {
-  @if $variant == 'flat' {
-    @include flat(315deg, light);
-  } @else if $variant == 'concave' {
-    @include concave(315deg, light);
-  } @else if $variant == 'convex' {
-    @include convex(light);
-  }
-}
-
-// Size mixins
-@mixin neu-card-size($size) {
-  @if $size == 'sm' {
-    --neumo-card-padding: 12px;
-    --neumo-card-radius: 12px;
-  } @else if $size == 'lg' {
-    --neumo-card-padding: 24px;
-    --neumo-card-radius: 20px;
-  }
-}
-
 // Main card class
 .neumo-card {
   position: relative;
@@ -150,26 +35,114 @@
   height: 100%;
   background: var(--neumo-card-bg);
   border-radius: var(--neumo-card-radius);
-  
-  // Apply base neumorphic effect
-  @include neu(var(--neumo-card-web-radius), light);
-  
-  // Platform-specific styles
-  @include neu-card-platform-styles;
-  
-  // Content layout
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  
-  // Transitions
   transition: var(--neumo-card-transition);
+  padding: var(--neumo-card-padding, 16px);
   
+  // Apply base neumorphic effect
+  @include neumorphix.neu(
+    $radius: var(--neumo-card-web-radius),
+    $mode: light,
+    $offset: var(--neumo-card-elevation-2),
+    $blur: 20px
+  );
+
+  // Mobile styles
+  @include devices.mobile(md) {
+    &.ios {
+      border-radius: var(--neumo-card-ios-radius);
+      
+      @include neumorphix.neu(
+        $radius: var(--neumo-card-ios-radius),
+        $mode: light,
+        $offset: var(--neumo-card-elevation-2),
+        $blur: 20px
+      );
+
+      &.interactive:active {
+        @include neumorphix.neu(
+          $radius: var(--neumo-card-ios-radius),
+          $mode: light,
+          $offset: var(--neumo-card-elevation-1),
+          $blur: 10px
+        );
+      }
+    }
+
+    &.android {
+      border-radius: var(--neumo-card-android-radius);
+      
+      @include neumorphix.neu(
+        $radius: var(--neumo-card-android-radius),
+        $mode: light,
+        $offset: var(--neumo-card-elevation-1),
+        $blur: 15px
+      );
+
+      &.interactive {
+        transition: box-shadow 0.2s ease-in-out;
+        
+        &:active {
+          @include neumorphix.neu(
+            $radius: var(--neumo-card-android-radius),
+            $mode: light,
+            $offset: var(--neumo-card-elevation-1),
+            $blur: 10px
+          );
+        }
+      }
+    }
+  }
+
+  // Tablet styles
+  @include devices.tablet(md) {
+    padding: var(--neumo-card-padding, 20px);
+    
+    &.ios, &.android {
+      @include neumorphix.neu(
+        $radius: var(--neumo-card-ios-radius),
+        $mode: light,
+        $offset: var(--neumo-card-elevation-2),
+        $blur: 25px
+      );
+    }
+  }
+
+  // Desktop styles
+  @include devices.desktop(md) {
+    &.web {
+      border-radius: var(--neumo-card-web-radius);
+      
+      @include neumorphix.neu(
+        $radius: var(--neumo-card-web-radius),
+        $mode: light,
+        $offset: var(--neumo-card-elevation-2),
+        $blur: 30px
+      );
+
+      &.interactive {
+        @media (hover: hover) {
+          &:hover {
+            transform: translateY(-2px) scale(var(--neumo-card-hover-scale));
+            
+            @include neumorphix.neu(
+              $radius: var(--neumo-card-web-radius),
+              $mode: light,
+              $offset: var(--neumo-card-elevation-3),
+              $blur: 35px
+            );
+          }
+        }
+      }
+    }
+  }
+
   // Interactive states
   &.interactive {
     cursor: pointer;
     
-    // Apply jitterfix for smoother animations
     &.jitter-shadow {
       @include jitterfix.hover-shadow;
     }
@@ -178,18 +151,43 @@
       @include jitterfix.hover-fixed;
     }
   }
-  
+
+  // Variants
+  &.flat {
+    @include neumorphix.flat($mode: light);
+  }
+
+  &.concave {
+    @include neumorphix.concave($mode: light);
+  }
+
+  &.convex {
+    @include neumorphix.convex($mode: light);
+  }
+
+  // Sizes
+  &.sm {
+    --neumo-card-padding: 12px;
+    --neumo-card-radius: 12px;
+  }
+
+  &.lg {
+    --neumo-card-padding: 24px;
+    --neumo-card-radius: 20px;
+  }
+
   // Content overflow handling
   &.overflow-visible {
     overflow: visible;
   }
-  
+
   &.overflow-hidden {
     overflow: hidden;
   }
-  
+
   // High-contrast support
   @media (prefers-contrast: high) {
     border: 1px solid #000000;
+    box-shadow: none !important;
   }
 }
