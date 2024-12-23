@@ -2,8 +2,27 @@
 @forward 'mixins';
 @forward 'devices';
 @forward 'neumorphix';
-@forward 'jitterfix';
+
 @forward 'globals';
+// Export public API
+@forward 'neumorphix' show 
+  neu-effect, 
+  flat, 
+  concave, 
+  convex, 
+  neu-interactive, 
+  focus-visible,
+  theme-aware,
+  contrast-mode,
+  get-theme-value;
+
+// Forward public mixins
+
+@forward 'jitterfix' show 
+  hover-shadow,
+  hover-fixed,
+  jitter-shadow,
+  jitter-fixed;
 
 // Import components with namespacing
 @use '../components/NeumoButton/NeumoButton.scss' as button;
@@ -25,13 +44,13 @@
 @use 'mixins' as mix;
 
 // Neumorphic effects
-@use 'neumorphix' as neu;
 
 // Animation and interaction utilities
 @use 'jitterfix' as jitter;
 
 // Global styles and base design system
 @use 'globals' as *;
+
 
 // Theme variables
 :root {

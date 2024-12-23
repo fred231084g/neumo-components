@@ -174,15 +174,3 @@ $themes: (
     }
   }
 }
-
-// Export public API
-@forward 'neumorphix' show 
-  neu-effect, 
-  flat, 
-  concave, 
-  convex, 
-  neu-interactive, 
-  focus-visible,
-  theme-aware,
-  contrast-mode,
-  get-theme-value;
