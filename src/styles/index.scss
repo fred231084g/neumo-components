@@ -1,5 +1,7 @@
 // src/styles/index.scss
-
+// Import components with namespacing
+@use '../components/NeumoButton/NeumoButton.scss' as button;
+@use '../components/NeumoCard/NeumoCard.scss' as card;
 // Core utilities and functions
 @use "sass:math";
 @use "sass:map";
@@ -148,9 +150,7 @@ body {
   color: var(--text-primary);
 }
 
-// Import components with namespacing
-@use '../components/NeumoButton/NeumoButton.scss' as button;
-@use '../components/NeumoCard/NeumoCard.scss' as card;
+
 
 // Export modules for component use
 :export {
