@@ -90,7 +90,7 @@ $themes: (
 }
 
 // Enhanced Flat Style
-@mixin neu-flat(
+@mixin flat(
   $mode: light,
   $gradient-angle: 145deg
 ) {
@@ -213,3 +213,4 @@ $themes: (
     }
   }
 }
+
