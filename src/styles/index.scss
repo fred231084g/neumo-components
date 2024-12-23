@@ -17,7 +17,7 @@
 @use '../components/NeumoCard/NeumoCard.scss' as card;
 
 // Selectively forward public API
-@forward 'neumorphix' show {
+@forward 'neumorphix' show
   neu-effect,
   flat,
   concave,
@@ -26,15 +26,13 @@
   focus-visible,
   theme-aware,
   contrast-mode,
-  get-theme-value
-};
+  get-theme-value;
 
-@forward 'jitterfix' show {
+@forward 'jitterfix' show
   hover-shadow,
   hover-fixed,
   jitter-shadow,
-  jitter-fixed
-}
+  jitter-fixed;
 
 // Theme variables
 :root {
