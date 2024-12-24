@@ -64,6 +64,7 @@ export default [
         tsconfig: './tsconfig.json',
         sourceMap: true,
         outDir: './dist/esm',
+        declaration: true,
         declarationDir: './dist/esm/'
       }),
       postcss({
@@ -105,6 +106,17 @@ export default [
         sourceMap: true,
         outDir: './dist/cjs',
         declaration: false
+      }),
+      postcss({
+        extract: 'styles.css',
+        modules: false,
+        autoModules: false,
+        minimize: true,
+        syntax: postcssConfig.syntax,
+        plugins: postcssConfig.plugins,
+        use: {
+          sass: sassConfig
+        }
       }),
       terser()
     ]
