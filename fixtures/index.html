@@ -6,9 +6,24 @@
   <meta name="theme-color" content="#f0f0f0" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
   <title>Neumo Components Showcase</title>
-  <link rel="stylesheet" href="../dist/index.css">
-  <script type="module" src="../dist/index.esm.js"></script>
-  <link rel="stylesheet" href="main.css">
+  
+  <!-- Import map for module resolution -->
+  <script type="importmap">
+    {
+      "imports": {
+        "lit": "/node_modules/lit/index.js",
+        "lit/": "/node_modules/lit/"
+      }
+    }
+  </script>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/dist/css/index.css">
+  <link rel="stylesheet" href="/fixtures/main.css">
+  
+  <!-- Component and main scripts -->
+  <script type="module" src="/dist/esm/components/index.js"></script>
+  <script type="module" src="/fixtures/index.js"></script>
 </head>
 <body>
   <div class="container">
