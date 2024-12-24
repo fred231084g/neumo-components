@@ -62,14 +62,13 @@ export default [
       preserveModules: true,
       preserveModulesRoot: 'src'
     },
-    external: ['lit', 'lit/decorators.js'],
+    external: [/^lit(\/.*)?$/],
     plugins: [
       resolve({
         browser: true,
         preferBuiltins: false,
         extensions: ['.js', '.ts', '.scss'],
-        mainFields: ['module', 'main'],
-        dedupe: ['lit']
+        mainFields: ['module', 'main']
       }),
       commonjs({
         include: 'node_modules/**',
@@ -80,9 +79,9 @@ export default [
         sourceMap: true,
         outDir: './dist/esm',
         declaration: true,
-        declarationDir: './dist/esm/'
+        declarationDir: './dist/types'
       }),
-      getPostcssPlugin('dist/esm/styles.css'),
+      getPostcssPlugin('dist/css/styles.css'),
       terser({
         format: {
           comments: false
