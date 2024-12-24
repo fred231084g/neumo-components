@@ -29,6 +29,72 @@ $colors: (
   )
 );
 
+// Theme variables
+:root {
+  // Colors
+  --color-neutral-50: #{map.get(vars.$colors, 'neutral', 50)};
+  --color-neutral-100: #{map.get(vars.$colors, 'neutral', 100)};
+  --color-neutral-200: #{map.get(vars.$colors, 'neutral', 200)};
+  --color-neutral-300: #{map.get(vars.$colors, 'neutral', 300)};
+  --color-neutral-400: #{map.get(vars.$colors, 'neutral', 400)};
+  --color-neutral-500: #{map.get(vars.$colors, 'neutral', 500)};
+  --color-neutral-600: #{map.get(vars.$colors, 'neutral', 600)};
+  --color-neutral-700: #{map.get(vars.$colors, 'neutral', 700)};
+  --color-neutral-800: #{map.get(vars.$colors, 'neutral', 800)};
+  --color-neutral-900: #{map.get(vars.$colors, 'neutral', 900)};
+  
+  // Theme colors
+  --bg-primary: var(--color-neutral-100);
+  --bg-secondary: var(--color-neutral-50);
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-600);
+  
+  // Interactive states
+  --hover-opacity: 0.05;
+  --active-opacity: 0.1;
+  --disabled-opacity: 0.5;
+  --focus-ring-color: #{vars.$focus-ring-color};
+  
+  // Spacing
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  
+  // Layout
+  --container-max-width: #{dev.get-breakpoint("desktop", "lg")};
+  --container-padding: var(--space-4);
+  --grid-gap: var(--space-6);
+  
+  // Animation
+  --transition-fast: 150ms;
+  --transition-base: 200ms;
+  --transition-slow: 300ms;
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  
+  // Typography
+  --font-sans: #{vars.$font-family-sans};
+  --font-mono: #{vars.$font-family-mono};
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+  
+  // Platform-specific
+  --safe-area-inset-top: env(safe-area-inset-top, 20px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+  
+  // Neumorphic settings
+  --neu-shadow-light: #{map.get(vars.$neumorphic, 'shadow', 'light')};
+  --neu-shadow-dark: #{map.get(vars.$neumorphic, 'shadow', 'dark')};
+  --neu-blur: #{map.get(vars.$neumorphic, 'blur')};
+}
+
 // Define primary and secondary color variables
 $color-primary: map.get($colors, 'primary', 500);
 $color-secondary: map.get($colors, 'neutral', 500); // Adjust the color and shade as needed
