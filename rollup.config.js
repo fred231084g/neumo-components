@@ -32,7 +32,7 @@ const postcssConfig = {
 
 // Shared SASS config
 const sassConfig = {
-  implementation: require('sass'),
+  implementation: require('sass').default,
   includePaths: ['src/styles']
 };
 
@@ -105,7 +105,8 @@ export default [
         tsconfig: './tsconfig.json',
         sourceMap: true,
         outDir: './dist/cjs',
-        declaration: false
+        declaration: true,
+        declarationDir: './dist/cjs'
       }),
       postcss({
         extract: 'styles.css',
