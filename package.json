@@ -3,22 +3,22 @@
   "version": "1.0.0",
   "description": "Neumorphism SVG components library",
   "type": "module",
-  "main": "dist/index.cjs",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/components/index.js",
-  "types": "dist/types/index.d.ts",
-  "style": "dist/index.css",
+  "types": "dist/types/components/index.d.ts",
+  "style": "dist/css/index.css",
   "files": [
     "dist",
     "src"
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/types/components/index.d.ts",
       "import": "./dist/esm/components/index.js",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.umd.js"
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/umd/index.js"
     },
-    "./styles.css": "./dist/index.css"
+    "./styles": "./dist/css/index.css"
   },
   "scripts": {
     "build": "rollup -c",

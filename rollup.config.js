@@ -37,41 +37,16 @@ const sassConfig = {
 };
 
 export default [
-  // Main component build
+  // ESM build
   {
     input: 'src/components/index.ts',
-    output: [
-      {
-        dir: 'dist/esm',
-        format: 'es',
-        sourcemap: true,
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        paths: {
-          'lit': '/node_modules/lit/index.js',
-          'lit/decorators.js': '/node_modules/lit/decorators.js'
-        }
-      },
-      {
-        file: 'dist/index.cjs',
-        format: 'cjs',
-        sourcemap: true,
-        paths: {
-          'lit': '/node_modules/lit/index.js',
-          'lit/decorators.js': '/node_modules/lit/decorators.js'
-        }
-      },
-      {
-        file: 'dist/index.umd.js',
-        format: 'umd',
-        name: 'NeumoComponents',
-        sourcemap: true,
-        globals: {
-          'lit': 'Lit',
-          'lit/decorators.js': 'LitDecorators'
-        }
-      }
-    ],
+    output: {
+      dir: 'dist/esm',
+      format: 'es',
+      sourcemap: true,
+      preserveModules: true,
+      preserveModulesRoot: 'src'
+    },
     external: ['lit', 'lit/decorators.js'],
     plugins: [
       resolve({
@@ -87,9 +62,9 @@ export default [
       }),
       typescript({
         tsconfig: './tsconfig.json',
-        declaration: true,
-        declarationDir: 'dist/types',
-        sourceMap: true
+        sourceMap: true,
+        outDir: './dist/esm',
+        declarationDir: './dist/types'
       }),
       postcss({
         extract: 'styles.css',
@@ -106,17 +81,69 @@ export default [
         format: {
           comments: false
         }
-      }),
-      visualizer({
-        filename: 'bundle-analysis.html'
       })
     ]
   },
-  // Separate CSS build
+  // CJS build
+  {
+    input: 'src/components/index.ts',
+    output: {
+      file: 'dist/cjs/index.js',
+      format: 'cjs',
+      sourcemap: true
+    },
+    external: ['lit', 'lit/decorators.js'],
+    plugins: [
+      resolve({
+        browser: true,
+        preferBuiltins: false,
+        extensions: ['.js', '.ts', '.scss']
+      }),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        sourceMap: true,
+        outDir: './dist/cjs',
+        declaration: false
+      }),
+      terser()
+    ]
+  },
+  // UMD build
+  {
+    input: 'src/components/index.ts',
+    output: {
+      file: 'dist/umd/index.js',
+      format: 'umd',
+      name: 'NeumoComponents',
+      sourcemap: true,
+      globals: {
+        'lit': 'Lit',
+        'lit/decorators.js': 'LitDecorators'
+      }
+    },
+    external: ['lit', 'lit/decorators.js'],
+    plugins: [
+      resolve({
+        browser: true,
+        preferBuiltins: false,
+        extensions: ['.js', '.ts', '.scss']
+      }),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        sourceMap: true,
+        outDir: './dist/umd',
+        declaration: false
+      }),
+      terser()
+    ]
+  },
+  // CSS build
   {
     input: 'src/styles/index.scss',
     output: {
-      file: 'dist/index.css',
+      file: 'dist/css/index.css',
       format: 'es'
     },
     plugins: [
