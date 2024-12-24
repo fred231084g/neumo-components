@@ -98,4 +98,17 @@ export class PlatformManager {
       const newTheme = currentTheme === 'light' ? 'dark' : 'light';
       this.setTheme(newTheme);
     }
+
+    setPlatform(platform) {
+      this.switchPlatform(platform);
+      this.updateAriaStates(`${platform}-switch`);
+    }
+
+    getPlatform() {
+      return document.body.className.replace('-platform', '');
+    }
+
+    getTheme() {
+      return document.body.getAttribute('theme');
+    }
   }
