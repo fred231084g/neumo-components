@@ -74,6 +74,9 @@ $neumorphic: (
 $font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 $font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
+// Focus ring color
+$focus-ring-color: #0066ff; // Define your focus ring color here
+
 
 // Functions to access nested maps
 @function get-color($color, $shade) {
@@ -113,6 +116,7 @@ $font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monosp
 
   --neu-dark-color: #{get-neumorphic('colors', 'dark')};
 }
+
 
 // Export variables
 :export {

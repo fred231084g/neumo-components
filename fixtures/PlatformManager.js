@@ -88,4 +88,14 @@ export class PlatformManager {
         }
       });
     }
+
+    setTheme(theme) {
+      document.body.setAttribute('theme', theme);
+    }
+
+    toggleTheme() {
+      const currentTheme = document.body.getAttribute('theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      this.setTheme(newTheme);
+    }
   }
