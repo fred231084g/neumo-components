@@ -146,7 +146,8 @@ export default [
         tsconfig: './tsconfig.json',
         sourceMap: true,
         outDir: './dist/umd',
-        declaration: false
+        declaration: true,
+        declarationDir: './dist/umd/'
       }),
       terser()
     ]
