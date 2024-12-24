@@ -42,10 +42,11 @@ export default [
     input: 'src/components/index.ts',
     output: [
       {
-        file: 'dist/index.esm.js',
+        dir: 'dist/esm',
         format: 'es',
         sourcemap: true,
         preserveModules: true,
+        preserveModulesRoot: 'src',
         paths: {
           'lit': '/node_modules/lit/index.js',
           'lit/decorators.js': '/node_modules/lit/decorators.js'
