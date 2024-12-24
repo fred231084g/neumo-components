@@ -161,6 +161,9 @@ export default [
       format: 'es'
     },
     plugins: [
+      resolve({
+        extensions: ['.scss']
+      }),
       postcss({
         extract: true,
         modules: false,
