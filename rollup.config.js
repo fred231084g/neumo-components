@@ -22,6 +22,10 @@ export default [
         file: 'dist/index.cjs',
         format: 'cjs',
         sourcemap: true,
+        paths: {
+          'lit': './node_modules/lit/index.js',
+          'lit/decorators.js': './node_modules/lit/decorators.js'
+        }
       },
       {
         file: 'dist/index.umd.js',
@@ -29,36 +33,28 @@ export default [
         name: 'NeumoComponents',
         sourcemap: true,
         globals: {
-          './node_modules/lit/index.js': 'Lit',
-          './node_modules/lit/decorators.js': 'LitDecorators'
+          'lit': 'Lit',
+          'lit/decorators.js': 'LitDecorators'
         }
-      },
+      }
+    ],
+    external: ['lit', 'lit/decorators.js'],
+    plugins: [
+      resolve({
         browser: true,
         preferBuiltins: false,
         extensions: ['.js', '.ts', '.scss'],
+        mainFields: ['module', 'main']
+      }),
       commonjs({
         include: 'node_modules/**'
       }),
-        exportConditions: ['module', 'import', 'default'],
       typescript({
         tsconfig: './tsconfig.json',
         declaration: true,
-        declarationDir: 'dist/types',
-      }),
-    ],
-    plugins: [
-      resolve({
-        extensions: ['.js', '.ts', '.scss'],
-        preferBuiltins: false
-      }),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        declaration: true,
-        declarationDir: 'dist/types',
+        declarationDir: 'dist/types'
       }),
       postcss({
-        extract: true,
         extract: 'styles.css',
         modules: false,
         autoModules: false,
@@ -72,7 +68,7 @@ export default [
         },
         plugins: [
           require('postcss-import'),
-          require('postcss-preset-env')({ 
+          require('postcss-preset-env')({
             stage: 1,
             features: {
               'nesting-rules': true
@@ -84,12 +80,12 @@ export default [
           require('cssnano')({
             preset: ['default', {
               discardComments: {
-                removeAll: true,
+                removeAll: true
               },
               calc: false
             }]
           })
-        ],
+        ]
       }),
       terser({
         format: {
@@ -99,7 +95,7 @@ export default [
       visualizer({
         filename: 'bundle-analysis.html'
       })
-    ],
+    ]
   },
   // Separate CSS build
   {
@@ -135,12 +131,12 @@ export default [
           require('cssnano')({
             preset: ['default', {
               discardComments: {
-                removeAll: true,
+                removeAll: true
               },
               calc: false
             }]
           })
-        ],
+        ]
       })
     ]
   }
