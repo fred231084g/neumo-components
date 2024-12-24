@@ -53,7 +53,7 @@ $colors: (
   --hover-opacity: 0.05;
   --active-opacity: 0.1;
   --disabled-opacity: 0.5;
-  --focus-ring-color: #{vars.$focus-ring-color};
+  --focus-ring-color: #{$focus-ring-color};
   
   // Spacing
   --space-1: 0.25rem;
@@ -80,8 +80,8 @@ $colors: (
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   
   // Typography
-  --font-sans: #{vars.$font-family-sans};
-  --font-mono: #{vars.$font-family-mono};
+  --font-sans: #{$font-family-sans};
+  --font-mono: #{$font-family-mono};
   --font-size-base: 1rem;
   --line-height-base: 1.5;
   
@@ -90,9 +90,9 @@ $colors: (
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
   
   // Neumorphic settings
-  --neu-shadow-light: #{map.get(vars.$neumorphic, 'shadow', 'light')};
-  --neu-shadow-dark: #{map.get(vars.$neumorphic, 'shadow', 'dark')};
-  --neu-blur: #{map.get(vars.$neumorphic, 'blur')};
+  --neu-shadow-light: #{map.get($neumorphic, 'shadow', 'light')};
+  --neu-shadow-dark: #{map.get($neumorphic, 'shadow', 'dark')};
+  --neu-blur: #{map.get($neumorphic, 'blur')};
 }
 
 // Define primary and secondary color variables
