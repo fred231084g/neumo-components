@@ -70,7 +70,7 @@ $focus-ring-color: #ff0000; // Define the focus ring color variable
   --space-12: 3rem;
   
   // Layout
-  --container-max-width: #{dev.get-breakpoint("desktop", "lg")};
+  --container-max-width: #{get-breakpoint("desktop", "lg")};
   --container-padding: var(--space-4);
   --grid-gap: var(--space-6);
   
