@@ -79,7 +79,7 @@ export default [
         sourceMap: true,
         outDir: './dist/esm',
         declaration: true,
-        declarationDir: './dist/types'
+        declarationDir: './dist/esm'
       }),
       getPostcssPlugin('dist/css/styles.css'),
       terser({
