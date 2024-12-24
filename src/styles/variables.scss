@@ -29,6 +29,9 @@ $colors: (
   )
 );
 
+// Define primary color variable
+$color-primary: map.get($colors, 'primary', 500);
+
 
 // Screen Breakpoints
 // Breakpoint Maps
