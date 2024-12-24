@@ -3,7 +3,6 @@ import postcss from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
-// import { visualizer } from 'rollup-plugin-visualizer';
 
 // Shared PostCSS config
 const postcssConfig = {
@@ -32,9 +31,25 @@ const postcssConfig = {
 
 // Shared SASS config
 const sassConfig = {
-  implementation: require('sass').default,
-  includePaths: ['src/styles']
+  implementation: require('sass'),
+  sassOptions: {
+    includePaths: ['src/styles'],
+    outputStyle: 'compressed'
+  }
 };
+
+// Shared PostCSS plugin config
+const getPostcssPlugin = (extractPath) => postcss({
+  extract: extractPath,
+  modules: false,
+  autoModules: false,
+  minimize: true,
+  syntax: postcssConfig.syntax,
+  plugins: postcssConfig.plugins,
+  use: {
+    sass: sassConfig
+  }
+});
 
 export default [
   // ESM build
@@ -67,17 +82,7 @@ export default [
         declaration: true,
         declarationDir: './dist/esm/'
       }),
-      postcss({
-        extract: 'styles.css',
-        modules: false,
-        autoModules: false,
-        minimize: true,
-        syntax: postcssConfig.syntax,
-        plugins: postcssConfig.plugins,
-        use: {
-          sass: sassConfig
-        }
-      }),
+      getPostcssPlugin('dist/esm/styles.css'),
       terser({
         format: {
           comments: false
@@ -108,17 +113,7 @@ export default [
         declaration: true,
         declarationDir: './dist/cjs'
       }),
-      postcss({
-        extract: 'styles.css',
-        modules: false,
-        autoModules: false,
-        minimize: true,
-        syntax: postcssConfig.syntax,
-        plugins: postcssConfig.plugins,
-        use: {
-          sass: sassConfig
-        }
-      }),
+      getPostcssPlugin('dist/cjs/styles.css'),
       terser()
     ]
   },
@@ -150,10 +145,11 @@ export default [
         declaration: true,
         declarationDir: './dist/umd/'
       }),
+      getPostcssPlugin('dist/umd/styles.css'),
       terser()
     ]
   },
-  // CSS build
+  // Separate CSS build
   {
     input: 'src/styles/index.scss',
     output: {
@@ -164,17 +160,7 @@ export default [
       resolve({
         extensions: ['.scss']
       }),
-      postcss({
-        extract: true,
-        modules: false,
-        autoModules: false,
-        minimize: true,
-        syntax: postcssConfig.syntax,
-        plugins: postcssConfig.plugins,
-        use: {
-          sass: sassConfig
-        }
-      })
+      getPostcssPlugin('dist/css/index.css')
     ]
   }
 ];
