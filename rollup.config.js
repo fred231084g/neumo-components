@@ -3,7 +3,7 @@ import postcss from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
-import { visualizer } from 'rollup-plugin-visualizer';
+// import { visualizer } from 'rollup-plugin-visualizer';
 
 // Shared PostCSS config
 const postcssConfig = {
@@ -64,7 +64,7 @@ export default [
         tsconfig: './tsconfig.json',
         sourceMap: true,
         outDir: './dist/esm',
-        declarationDir: './dist/types'
+        declarationDir: './dist/esm/'
       }),
       postcss({
         extract: 'styles.css',
