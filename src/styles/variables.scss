@@ -29,8 +29,9 @@ $colors: (
   )
 );
 
-// Define primary color variable
+// Define primary and secondary color variables
 $color-primary: map.get($colors, 'primary', 500);
+$color-secondary: map.get($colors, 'neutral', 500); // Adjust the color and shade as needed
 
 
 // Screen Breakpoints
