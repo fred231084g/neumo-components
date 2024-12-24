@@ -5,7 +5,39 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+// Shared PostCSS config
+const postcssConfig = {
+  syntax: require('postcss-scss'),
+  plugins: [
+    require('postcss-import'),
+    require('postcss-preset-env')({
+      stage: 1,
+      features: {
+        'nesting-rules': true
+      }
+    }),
+    require('autoprefixer')({
+      grid: true
+    }),
+    require('cssnano')({
+      preset: ['default', {
+        discardComments: {
+          removeAll: true
+        },
+        calc: false
+      }]
+    })
+  ]
+};
+
+// Shared SASS config
+const sassConfig = {
+  implementation: require('sass'),
+  includePaths: ['src/styles']
+};
+
 export default [
+  // Main component build
   {
     input: 'src/components/index.ts',
     output: [
@@ -13,9 +45,10 @@ export default [
         file: 'dist/index.esm.js',
         format: 'es',
         sourcemap: true,
+        preserveModules: true,
         paths: {
-          'lit': './node_modules/lit/index.js',
-          'lit/decorators.js': './node_modules/lit/decorators.js'
+          'lit': '/node_modules/lit/index.js',
+          'lit/decorators.js': '/node_modules/lit/decorators.js'
         }
       },
       {
@@ -23,8 +56,8 @@ export default [
         format: 'cjs',
         sourcemap: true,
         paths: {
-          'lit': './node_modules/lit/index.js',
-          'lit/decorators.js': './node_modules/lit/decorators.js'
+          'lit': '/node_modules/lit/index.js',
+          'lit/decorators.js': '/node_modules/lit/decorators.js'
         }
       },
       {
@@ -44,48 +77,29 @@ export default [
         browser: true,
         preferBuiltins: false,
         extensions: ['.js', '.ts', '.scss'],
-        mainFields: ['module', 'main']
+        mainFields: ['module', 'main'],
+        dedupe: ['lit']
       }),
       commonjs({
-        include: 'node_modules/**'
+        include: 'node_modules/**',
+        requireReturnsDefault: 'auto'
       }),
       typescript({
         tsconfig: './tsconfig.json',
         declaration: true,
-        declarationDir: 'dist/types'
+        declarationDir: 'dist/types',
+        sourceMap: true
       }),
       postcss({
         extract: 'styles.css',
         modules: false,
         autoModules: false,
         minimize: true,
-        syntax: require('postcss-scss'),
+        syntax: postcssConfig.syntax,
+        plugins: postcssConfig.plugins,
         use: {
-          sass: {
-            implementation: require('sass'),
-            includePaths: ['src/styles']
-          }
-        },
-        plugins: [
-          require('postcss-import'),
-          require('postcss-preset-env')({
-            stage: 1,
-            features: {
-              'nesting-rules': true
-            }
-          }),
-          require('autoprefixer')({
-            grid: true
-          }),
-          require('cssnano')({
-            preset: ['default', {
-              discardComments: {
-                removeAll: true
-              },
-              calc: false
-            }]
-          })
-        ]
+          sass: sassConfig
+        }
       }),
       terser({
         format: {
@@ -110,33 +124,11 @@ export default [
         modules: false,
         autoModules: false,
         minimize: true,
-        syntax: require('postcss-scss'),
+        syntax: postcssConfig.syntax,
+        plugins: postcssConfig.plugins,
         use: {
-          sass: {
-            implementation: require('sass'),
-            includePaths: ['src/styles']
-          }
-        },
-        plugins: [
-          require('postcss-import'),
-          require('postcss-preset-env')({
-            stage: 1,
-            features: {
-              'nesting-rules': true
-            }
-          }),
-          require('autoprefixer')({
-            grid: true
-          }),
-          require('cssnano')({
-            preset: ['default', {
-              discardComments: {
-                removeAll: true
-              },
-              calc: false
-            }]
-          })
-        ]
+          sass: sassConfig
+        }
       })
     ]
   }
