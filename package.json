@@ -26,8 +26,10 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/postcss-import": "^14.0.3",
+    "@types/postcss-preset-env": "^7.7.0",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
     "postcss-import": "^16.1.0",

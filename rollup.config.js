@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -13,6 +13,10 @@ export default [
         file: 'dist/index.esm.js',
         format: 'es',
         sourcemap: true,
+        paths: {
+          'lit': './node_modules/lit/index.js',
+          'lit/decorators.js': './node_modules/lit/decorators.js'
+        }
       },
       {
         file: 'dist/index.cjs',
@@ -25,12 +29,23 @@ export default [
         name: 'NeumoComponents',
         sourcemap: true,
         globals: {
-          'lit': 'Lit',
-          'lit/decorators.js': 'LitDecorators'
+          './node_modules/lit/index.js': 'Lit',
+          './node_modules/lit/decorators.js': 'LitDecorators'
         }
       },
+        browser: true,
+        preferBuiltins: false,
+        extensions: ['.js', '.ts', '.scss'],
+      commonjs({
+        include: 'node_modules/**'
+      }),
+        exportConditions: ['module', 'import', 'default'],
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: true,
+        declarationDir: 'dist/types',
+      }),
     ],
-    external: ['lit', 'lit/decorators.js'],
     plugins: [
       resolve({
         extensions: ['.js', '.ts', '.scss'],
