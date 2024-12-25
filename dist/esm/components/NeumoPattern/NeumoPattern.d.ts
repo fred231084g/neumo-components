@@ -1,17 +1,18 @@
-import { LitElement } from 'lit';
-import { PatternContent } from './NuemoPattern';
-export declare class NeumoPattern extends LitElement {
-    pattern: 'z' | 'f' | 't';
+import { LitElement, TemplateResult } from 'lit';
+import { PatternProperties, PatternType, PatternContent } from './types';
+export declare class NeumoPattern extends LitElement implements PatternProperties {
+    pattern: PatternType;
     loading: boolean;
     content: PatternContent;
     withDropCap: boolean;
     static styles: import("lit").CSSResult;
-    protected render(): import("lit-html").TemplateResult<1>;
+    protected render(): TemplateResult<1>;
     private _renderPattern;
     private _renderZPattern;
     private _renderFPattern;
     private _renderTPattern;
     private _renderSkeleton;
+    private _renderContent;
 }
 export declare class NeumoZPattern extends NeumoPattern {
     constructor();

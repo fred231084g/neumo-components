@@ -2,7 +2,7 @@ import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { PatternContent, PatternType, PatternProperties } from './NeumoPattern.d';
+import { PatternProperties, PatternType, PatternContent } from './types';
 
 @customElement('neumo-pattern')
 export class NeumoPattern extends LitElement implements PatternProperties {

@@ -1,4 +1,4 @@
 export * from './NeumoPattern/NeumoPattern';
-export { PatternContent as PatternContentD } from './NeumoPattern/NuemoPattern.d';
+export * from './NeumoPattern/types';
 export * from './NeumoButton/NeumoButton';
 export * from './NeumoCard/NeumoCard';
