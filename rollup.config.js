@@ -4,6 +4,16 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 
+// External dependencies configuration
+const external = [
+  'lit',
+  'lit/decorators.js',
+  '@lit/reactive-element',
+  'lit-html',
+  'lit-element/lit-element.js',
+  /^@lit-labs\//
+];
+
 // Shared PostCSS config
 const postcssConfig = {
   syntax: require('postcss-scss'),
@@ -51,6 +61,32 @@ const getPostcssPlugin = (extractPath) => postcss({
   }
 });
 
+// Shared plugins configuration
+const getBasePlugins = (outDir) => [
+  resolve({
+    browser: true,
+    preferBuiltins: false,
+    extensions: ['.js', '.ts', '.scss'],
+    mainFields: ['module', 'main']
+  }),
+  commonjs({
+    include: 'node_modules/**',
+    requireReturnsDefault: 'auto'
+  }),
+  typescript({
+    tsconfig: './tsconfig.json',
+    sourceMap: true,
+    outDir,
+    declaration: true,
+    declarationDir: outDir
+  }),
+  terser({
+    format: {
+      comments: false
+    }
+  })
+];
+
 export default [
   // ESM build
   {
@@ -62,31 +98,10 @@ export default [
       preserveModules: true,
       preserveModulesRoot: 'src'
     },
-    external: [/^lit(\/.*)?$/],
+    external,
     plugins: [
-      resolve({
-        browser: true,
-        preferBuiltins: false,
-        extensions: ['.js', '.ts', '.scss'],
-        mainFields: ['module', 'main']
-      }),
-      commonjs({
-        include: 'node_modules/**',
-        requireReturnsDefault: 'auto'
-      }),
-      typescript({
-        tsconfig: './tsconfig.json',
-        sourceMap: true,
-        outDir: './dist/esm',
-        declaration: true,
-        declarationDir: './dist/esm'
-      }),
-      getPostcssPlugin('dist/css/styles.css'),
-      terser({
-        format: {
-          comments: false
-        }
-      })
+      ...getBasePlugins('./dist/esm'),
+      getPostcssPlugin('dist/esm/styles.css')
     ]
   },
   // CJS build
@@ -97,23 +112,10 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    external: ['lit', 'lit/decorators.js'],
+    external,
     plugins: [
-      resolve({
-        browser: true,
-        preferBuiltins: false,
-        extensions: ['.js', '.ts', '.scss']
-      }),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        sourceMap: true,
-        outDir: './dist/cjs',
-        declaration: true,
-        declarationDir: './dist/cjs'
-      }),
-      getPostcssPlugin('dist/cjs/styles.css'),
-      terser()
+      ...getBasePlugins('./dist/cjs'),
+      getPostcssPlugin('dist/cjs/styles.css')
     ]
   },
   // UMD build
@@ -126,29 +128,19 @@ export default [
       sourcemap: true,
       globals: {
         'lit': 'Lit',
-        'lit/decorators.js': 'LitDecorators'
+        'lit/decorators.js': 'LitDecorators',
+        '@lit/reactive-element': 'LitReactiveElement',
+        'lit-html': 'LitHtml',
+        'lit-element/lit-element.js': 'LitElement'
       }
     },
-    external: ['lit', 'lit/decorators.js'],
+    external,
     plugins: [
-      resolve({
-        browser: true,
-        preferBuiltins: false,
-        extensions: ['.js', '.ts', '.scss']
-      }),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        sourceMap: true,
-        outDir: './dist/umd',
-        declaration: true,
-        declarationDir: './dist/umd/'
-      }),
-      getPostcssPlugin('dist/umd/styles.css'),
-      terser()
+      ...getBasePlugins('./dist/umd'),
+      getPostcssPlugin('dist/umd/styles.css')
     ]
   },
-  // Separate CSS build
+  // CSS build
   {
     input: 'src/styles/index.scss',
     output: {
