@@ -1,0 +1,65 @@
+// NeumoToast.scss
+@use "../styles/globals.scss" as *;
+
+:host {
+  --toast-success: var(--neumo-success-color, #10B981);
+  --toast-error: var(--neumo-error-color, #EF4444);
+  --toast-warning: var(--neumo-warning-color, #F59E0B);
+  --toast-info: var(--neumo-info-color, #3B82F6);
+  --toast-bg: var(--neumo-surface-color, #f0f0f0);
+  --toast-text: var(--neumo-text-color, #1f2937);
+  --toast-shadow-light: var(--neumo-shadow-light, rgba(255, 255, 255, 0.8));
+  --toast-shadow-dark: var(--neumo-shadow-dark, rgba(0, 0, 0, 0.1));
+}
+
+.toast {
+  @include neu(
+    $radius: 12px,
+    $bg: var(--toast-bg),
+    $shadow-light: var(--toast-shadow-light),
+    $shadow-dark: var(--toast-shadow-dark)
+  );
+
+  &.ios {
+    @include ios-toast;
+  }
+
+  &.android {
+    @include android-toast;
+  }
+
+  &.success {
+    @include toast-variant(var(--toast-success));
+  }
+
+  &.error {
+    @include toast-variant(var(--toast-error));
+  }
+
+  &.warning {
+    @include toast-variant(var(--toast-warning));
+  }
+
+  &.info {
+    @include toast-variant(var(--toast-info));
+  }
+}
+
+@mixin ios-toast {
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  background: rgba(var(--toast-bg), 0.8);
+}
+
+@mixin android-toast {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--toast-shadow-dark);
+}
+
+@mixin toast-variant($color) {
+  border-left: 4px solid $color;
+  
+  .icon {
+    color: $color;
+  }
+}
