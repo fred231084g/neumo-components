@@ -1,14 +1,8 @@
 import { LitElement, html, css, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { PatternContent } from './NuemoPattern';
 
-// Base Pattern Interface
-export interface PatternContent {
-  header?: string;
-  main: string;
-  secondary?: string;
-  sidebar?: string;
-}
 
 // Base Layout Pattern
 @customElement('neumo-pattern')
