@@ -1,13 +1,12 @@
-import { LitElement, html, css, PropertyValues } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { PatternContent } from './NuemoPattern';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { PatternContent, PatternType, PatternProperties } from './types';
 
-
-// Base Layout Pattern
 @customElement('neumo-pattern')
-export class NeumoPattern extends LitElement {
-  @property({ type: String }) pattern: 'z' | 'f' | 't' = 'z';
+export class NeumoPattern extends LitElement implements PatternProperties {
+  @property({ type: String }) pattern: PatternType = 'z';
   @property({ type: Boolean }) loading = false;
   @property({ type: Object }) content: PatternContent = {
     main: ''
@@ -81,47 +80,52 @@ export class NeumoPattern extends LitElement {
   }
 
   private _renderZPattern() {
+    const classes = { 'with-drop-cap': this.withDropCap };
     return html`
-      <div class="${classMap({ 'with-drop-cap': this.withDropCap })}">
-        ${this.content.main}
+      <div class=${classMap(classes)}>
+        ${this._renderContent(this.content.main)}
       </div>
       ${this.content.secondary ? html`
-        <div>${this.content.secondary}</div>
+        <div>${this._renderContent(this.content.secondary)}</div>
       ` : ''}
     `;
   }
 
   private _renderFPattern() {
+    const classes = { 'with-drop-cap': this.withDropCap };
     return html`
       ${this.content.header ? html`
-        <div class="pattern-header ${classMap({ 'with-drop-cap': this.withDropCap })}">
-          ${this.content.header}
+        <div class="pattern-header ${classMap(classes)}">
+          ${this._renderContent(this.content.header)}
         </div>
       ` : ''}
       <div class="pattern-main">
-        <div class="${classMap({ 'with-drop-cap': this.withDropCap })}">
-          ${this.content.main}
+        <div class=${classMap(classes)}>
+          ${this._renderContent(this.content.main)}
         </div>
         ${this.content.sidebar ? html`
-          <div class="pattern-sidebar">${this.content.sidebar}</div>
+          <div class="pattern-sidebar">
+            ${this._renderContent(this.content.sidebar)}
+          </div>
         ` : ''}
       </div>
     `;
   }
 
   private _renderTPattern() {
+    const classes = { 'with-drop-cap': this.withDropCap };
     return html`
       ${this.content.header ? html`
-        <div class="pattern-header ${classMap({ 'with-drop-cap': this.withDropCap })}">
-          ${this.content.header}
+        <div class="pattern-header ${classMap(classes)}">
+          ${this._renderContent(this.content.header)}
         </div>
       ` : ''}
       <div class="pattern-content">
-        <div class="${classMap({ 'with-drop-cap': this.withDropCap })}">
-          ${this.content.main}
+        <div class=${classMap(classes)}>
+          ${this._renderContent(this.content.main)}
         </div>
         ${this.content.secondary ? html`
-          <div>${this.content.secondary}</div>
+          <div>${this._renderContent(this.content.secondary)}</div>
         ` : ''}
       </div>
     `;
@@ -134,6 +138,13 @@ export class NeumoPattern extends LitElement {
         <div class="skeleton"></div>
       `)}
     `;
+  }
+
+  private _renderContent(content: string | TemplateResult) {
+    if (typeof content === 'string') {
+      return html`${unsafeHTML(content)}`;
+    }
+    return content;
   }
 }
 

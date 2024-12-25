@@ -7,7 +7,8 @@ export default {
   preserveSymlinks: true,
   plugins: [esbuildPlugin({ ts: true })],
   middleware: [
-    function rewriteNodeModules(context, next) {
+    function rewriteModules(context, next) {
+      // Set correct MIME types for modules
       const mimeTypes = {
         '.js': 'application/javascript',
         '.mjs': 'application/javascript',
@@ -15,12 +16,19 @@ export default {
         '.html': 'text/html',
       };
 
-      // Set correct MIME type for module files
       if (context.url.includes('/node_modules/')) {
         const ext = context.url.split('.').pop();
         if (mimeTypes[`.${ext}`]) {
           context.response.type = mimeTypes[`.${ext}`];
         }
+      }
+
+      // Add preload headers for critical resources
+      if (context.url.endsWith('.js') || context.url.endsWith('.mjs')) {
+        context.response.set('Link', `<${context.url}>; rel=modulepreload`);
+      }
+      if (context.url.endsWith('.css')) {
+        context.response.set('Link', `<${context.url}>; rel=preload; as=style`);
       }
 
       return next();
