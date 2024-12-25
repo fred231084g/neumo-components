@@ -1,0 +1,109 @@
+// Pattern Layout Styles
+@use '../globals.scss' as *;
+
+:host {
+  --pattern-spacing: var(--neumo-spacing-md, 1rem);
+  --pattern-header-bg: var(--neumo-primary-color, #2c5282);
+  --pattern-content-bg: var(--neumo-surface-color, #f8fafc);
+  --pattern-sidebar-bg: var(--neumo-surface-alt-color, #edf2f7);
+}
+
+.pattern-container {
+  display: grid;
+  gap: var(--pattern-spacing);
+  width: 100%;
+  transition: all var(--neumo-transition, 0.3s ease);
+}
+
+// Z-Pattern Layout
+.z-pattern {
+  grid-template-columns: repeat(2, 1fr);
+  
+  @include mobile(lg) {
+    grid-template-columns: 1fr;
+  }
+
+  > div {
+    padding: var(--pattern-spacing);
+    background: var(--pattern-content-bg);
+    border-radius: var(--neumo-radius-md, 4px);
+
+    &:nth-child(2) {
+      background: var(--pattern-sidebar-bg);
+    }
+  }
+}
+
+// F-Pattern Layout
+.f-pattern {
+  grid-template-rows: auto 1fr;
+
+  .pattern-header {
+    background: var(--pattern-header-bg);
+    color: var(--neumo-on-primary-color, white);
+    padding: var(--pattern-spacing);
+    border-radius: var(--neumo-radius-md, 4px);
+  }
+
+  .pattern-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--pattern-spacing);
+
+    @include mobile(lg) {
+      grid-template-columns: 1fr;
+    }
+
+    > div {
+      padding: var(--pattern-spacing);
+      border-radius: var(--neumo-radius-md, 4px);
+
+      &:first-child {
+        background: var(--pattern-content-bg);
+      }
+
+      &.pattern-sidebar {
+        background: var(--pattern-sidebar-bg);
+      }
+    }
+  }
+}
+
+// T-Pattern Layout
+.t-pattern {
+  grid-template-rows: auto 1fr;
+
+  .pattern-header {
+    background: var(--pattern-header-bg);
+    color: var(--neumo-on-primary-color, white);
+    padding: var(--pattern-spacing);
+    border-radius: var(--neumo-radius-md, 4px);
+  }
+
+  .pattern-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--pattern-spacing);
+
+    @include mobile(lg) {
+      grid-template-columns: 1fr;
+    }
+
+    > div {
+      padding: var(--pattern-spacing);
+      background: var(--pattern-content-bg);
+      border-radius: var(--neumo-radius-md, 4px);
+
+      &:nth-child(2) {
+        background: var(--pattern-sidebar-bg);
+      }
+    }
+  }
+}
+
+// Loading Skeleton Styles
+.skeleton {
+  width: 100%;
+  &:nth-child(2) { width: 95%; }
+  &:nth-child(3) { width: 85%; }
+}

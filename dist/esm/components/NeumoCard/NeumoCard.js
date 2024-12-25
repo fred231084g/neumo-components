@@ -15,7 +15,7 @@ import{__decorate as t,__metadata as e}from"../../node_modules/tslib/tslib.es6.j
       --neumo-card-shadow-dark: var(--card-shadow-dark, #d1d1d1);
       --neumo-card-radius: var(--card-radius, 16px);
       --neumo-card-padding: var(--card-padding, 20px);
-      --neumo-card-hover-scale: 0;
+      --neumo-card-hover-scale: 1.02;
       --neumo-card-press-scale: 0.98;
       
       display: block;

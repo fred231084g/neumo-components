@@ -8,8 +8,7 @@
   <title>Neumo Components Showcase</title>
   
   <!-- Import map for module resolution -->
- <!-- Comprehensive import map for all lit dependencies -->
-<script type="importmap">
+  <script type="importmap">
   {
     "imports": {
       "lit": "/node_modules/lit/index.js",
@@ -24,6 +23,7 @@
     }
   }
   </script>
+  
   <!-- Styles -->
   <link rel="stylesheet" href="/dist/css/index.css">
   <link rel="stylesheet" href="/fixtures/main.css">
@@ -36,7 +36,7 @@
   <div class="container">
     <h1>Neumo Components Showcase</h1>
 
-    <!-- Enhanced Platform Switcher -->
+    <!-- Platform Switcher -->
     <div class="platform-switcher" role="toolbar" aria-label="Platform selection">
       <neumo-button 
         label="iOS" 
@@ -63,6 +63,42 @@
         aria-pressed="true"
       ></neumo-button>
     </div>
+
+    <!-- Layout Patterns Section -->
+    <section class="showcase-section">
+      <h2 class="section-title">Layout Patterns</h2>
+      <div class="showcase-grid">
+        <!-- Z Pattern Example -->
+        <neumo-z-pattern
+          withDropCap
+          .content=${{
+            main: "This demonstrates the Z pattern layout. Content flows from left to right, then diagonally to the next row.",
+            secondary: "Secondary content appears here, completing the Z shape."
+          }}
+        ></neumo-z-pattern>
+
+        <!-- F Pattern Example -->
+        <neumo-f-pattern
+          withDropCap
+          .content=${{
+            header: "F Pattern Layout",
+            main: "The F pattern starts with a header, followed by main content that flows horizontally.",
+            sidebar: "Sidebar content appears on the right.",
+            secondary: "Additional content sections follow the same pattern."
+          }}
+        ></neumo-f-pattern>
+
+        <!-- T Pattern Example -->
+        <neumo-t-pattern
+          withDropCap
+          .content=${{
+            header: "T Pattern Layout",
+            main: "The T pattern features a prominent header followed by balanced columns of content below.",
+            secondary: "Secondary content appears in the second column, maintaining the T shape."
+          }}
+        ></neumo-t-pattern>
+      </div>
+    </section>
 
     <!-- Basic Components Section -->
     <section class="showcase-section">
@@ -130,6 +166,48 @@
       </div>
     </section>
 
+    <!-- Pattern Integration Section -->
+    <section class="showcase-section">
+      <h2 class="section-title">Pattern Integration</h2>
+      <div class="showcase-grid">
+        <!-- Pattern with Components -->
+        <neumo-f-pattern
+          .content=${{
+            header: "Component Integration",
+            main: html`
+              <neumo-card
+                platform="web"
+                variant="flat"
+                size="md"
+              >
+                <h3>Nested Components</h3>
+                <p>Patterns can contain other Neumo components.</p>
+                <neumo-button
+                  label="Integrated Button"
+                  platform="web"
+                  variant="flat"
+                  size="md"
+                ></neumo-button>
+              </neumo-card>
+            `,
+            sidebar: html`
+              <neumo-button
+                label="Sidebar Action"
+                platform="web"
+                variant="flat"
+                size="md"
+              ></neumo-button>
+            `
+          }}
+        ></neumo-f-pattern>
+
+        <!-- Loading State Example -->
+        <neumo-t-pattern
+          loading="true"
+        ></neumo-t-pattern>
+      </div>
+    </section>
+
     <!-- Custom Styling Section -->
     <section class="showcase-section">
       <h2 class="section-title">Custom Styling</h2>
@@ -192,6 +270,6 @@
     </section>
   </div>
 
-  <script src="./index.js" type=module async></script>
+  <script src="./index.js" type="module" async></script>
 </body>
 </html>
