@@ -1,0 +1,97 @@
+@import "platform.css";
+/* Styles for the platform switcher buttons */
+.platform-button {
+    padding: var(--button-padding-sm);
+    border-radius: 8px;
+    background-color: var(--color-neutral-100);
+    box-shadow: 2px 2px 4px var(--color-neutral-300), -2px -2px 4px var(--color-neutral-50);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.platform-button[aria-pressed="true"] {
+    background-color: var(--color-primary-600);
+    color: var(--color-neutral-50);
+}
+
+.platform-button:hover {
+    background-color: var(--color-neutral-200);
+}
+
+/* Styles for the showcase sections */
+.showcase-section {
+    background-color: var(--color-neutral-50);
+    padding: var(--space-6);
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px var(--color-neutral-300), -2px -2px 8px var(--color-neutral-50);
+}
+
+.section-title {
+    margin-bottom: var(--space-4);
+    font-size: 1.5rem;
+    color: var(--color-neutral-700);
+}
+
+/* Styles for the showcase grid */
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+/* Styles for the cards */
+.neumo-card {
+    padding: var(--card-padding-md);
+    border-radius: 12px;
+    background-color: var(--color-neutral-100);
+    box-shadow: 2px 2px 8px var(--color-neutral-300), -2px -2px 8px var(--color-neutral-50);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neumo-card:hover {
+    transform: scale(1.02);
+    box-shadow: 4px 4px 16px var(--color-neutral-400), -4px -4px 16px var(--color-neutral-200);
+}
+
+/* Styles for the buttons inside cards */
+.neumo-button {
+    padding: var(--button-padding-md);
+    border-radius: 8px;
+    background-color: var(--color-primary-600);
+    color: var(--color-neutral-50);
+    box-shadow: 2px 2px 4px var(--color-neutral-300), -2px -2px 4px var(--color-neutral-50);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neumo-button:hover {
+    background-color: var(--color-primary-700);
+}
+
+/* Custom styles for specific cards */
+.custom-colors-card {
+    background-color: var(--color-neutral-100);
+    box-shadow: 2px 2px 8px var(--color-neutral-200), -2px -2px 8px var(--color-neutral-50);
+}
+
+.custom-button {
+    background-color: var(--accent-color);
+    color: var(--color-neutral-50);
+    box-shadow: 2px 2px 4px var(--color-neutral-100), -2px -2px 4px var(--color-primary-600);
+}
+
+.size-variants-card {
+    padding: var(--card-padding-lg);
+    background-color: var(--color-neutral-100);
+    box-shadow: 2px 2px 8px var(--color-neutral-300), -2px -2px 8px var(--color-neutral-50);
+}
+
+.small-button {
+    padding: var(--button-padding-sm);
+}
+
+.medium-button {
+    padding: var(--button-padding-md);
+}
+
+.large-button {
+    padding: var(--button-padding-lg);
+}
