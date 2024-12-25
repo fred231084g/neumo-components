@@ -27,7 +27,6 @@ export interface PatternTheme {
     /** Dark shadow color for neumorphic effect */
     shadowDark?: string;
 }
-export type PatternType = 'z' | 'f' | 't';
 export interface PatternContent {
     header?: string | TemplateResult;
     main: string | TemplateResult;
@@ -122,7 +121,6 @@ export interface PatternCSSProperties {
     /** Pattern sidebar background */
     '--pattern-sidebar-bg'?: string;
 }
-export type PatternType = 'z' | 'f' | 't';
 export interface PatternContent {
     header?: string | TemplateResult;
     main: string | TemplateResult;

@@ -1,4 +1,3 @@
-
 import { TemplateResult } from 'lit';
 
 /**
@@ -30,21 +29,6 @@ export interface PatternTheme {
   shadowLight?: string;
   /** Dark shadow color for neumorphic effect */
   shadowDark?: string;
-}// NeumoPattern.d.ts
-
-
-export interface PatternContent {
-  header?: string | TemplateResult;
-  main: string | TemplateResult;
-  secondary?: string | TemplateResult;
-  sidebar?: string | TemplateResult;
-}
-
-export interface PatternProperties {
-  pattern: PatternType;
-  content: PatternContent;
-  withDropCap?: boolean;
-  loading?: boolean;
 }
 
 /**
@@ -88,9 +72,9 @@ export interface PatternProperties extends PatternState {
   /** Custom class names */
   className?: string;
   /** ARIA role */
-  role?: string;
+  role?: string | null;
   /** ARIA label */
-  ariaLabel?: string;
+  ariaLabel?: string | null;
 }
 
 /**
@@ -134,21 +118,4 @@ export interface PatternCSSProperties {
   '--pattern-content-bg'?: string;
   /** Pattern sidebar background */
   '--pattern-sidebar-bg'?: string;
-}
-
-
-
-
-export interface PatternContent {
-  header?: string | TemplateResult;
-  main: string | TemplateResult;
-  secondary?: string | TemplateResult;
-  sidebar?: string | TemplateResult;
-}
-
-export interface PatternProperties {
-  pattern: PatternType;
-  content: PatternContent;
-  withDropCap?: boolean;
-  loading?: boolean;
 }
