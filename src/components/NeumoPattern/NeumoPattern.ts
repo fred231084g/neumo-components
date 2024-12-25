@@ -9,8 +9,8 @@ export class NeumoPattern extends LitElement implements PatternProperties {
   @property({ type: Boolean }) loading = false;
   @property({ type: Object }) content: PatternContent = { main: '' };
   @property({ type: Boolean }) withDropCap = false;
-  @property({ type: String }) role?: string | null;
-  @property({ type: String }) ariaLabel?: string | null;
+  @property({ type: String }) role: string | null = null;
+  @property({ type: String }) ariaLabel: string | null = null;
 
   static styles = css`
     :host {

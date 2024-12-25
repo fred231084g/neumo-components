@@ -5,8 +5,8 @@ export declare class NeumoPattern extends LitElement implements PatternPropertie
     loading: boolean;
     content: PatternContent;
     withDropCap: boolean;
-    role?: string | null;
-    ariaLabel?: string | null;
+    role: string | null;
+    ariaLabel: string | null;
     static styles: import("lit").CSSResult;
     protected render(): TemplateResult<1>;
     private _renderPattern;
