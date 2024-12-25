@@ -22,7 +22,7 @@
     "./styles": "./dist/css/index.css"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --environment BUILD:production ----bundleConfigAsCjs", 
     "start": "web-dev-server --config dev-server.config.js --open",
     "serve": "web-dev-server --root-dir dist --node-resolve --open --watch",
     "prepublishOnly": "npm run build"
