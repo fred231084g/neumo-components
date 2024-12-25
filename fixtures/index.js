@@ -1,44 +1,116 @@
-import { PlatformManager } from './PlatformManager.js';
+import { PlatformManager, THEMES, PLATFORMS } from './PlatformManager.js';
 
-// Initialize platform management
+// Store manager instance
 let platformManager;
 
-window.addEventListener('DOMContentLoaded', () => {
-  platformManager = new PlatformManager();
+/**
+ * Initialize the application
+ */
+function initializeApp() {
+  try {
+    platformManager = new PlatformManager();
+    
+    // Apply initial settings
+    platformManager.setTheme(getPreferredTheme());
+    platformManager.setPlatform(getPreferredPlatform());
+    
+    // Set up event listeners
+    setupEventListeners();
+    
+  } catch (error) {
+    console.error('Failed to initialize app:', error);
+  }
+}
+
+/**
+ * Get preferred theme from system or stored preference
+ * @returns {string}
+ */
+function getPreferredTheme() {
+  // Check system preference
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return THEMES.DARK;
+  }
   
-  // Move these calls inside the DOMContentLoaded event
-  // Switch theme
-  platformManager.setTheme('dark');
+  // Check stored preference
+  const storedTheme = localStorage.getItem('preferred-theme');
+  if (storedTheme && Object.values(THEMES).includes(storedTheme)) {
+    return storedTheme;
+  }
+  
+  return THEMES.LIGHT;
+}
 
-  // Switch platform
-  platformManager.setPlatform('ios');
-  // Remove this line as themeManager is not defined
-  // themeManager.setPlatform('ios');
-});
+/**
+ * Get preferred platform from stored preference or detect
+ * @returns {string}
+ */
+function getPreferredPlatform() {
+  const storedPlatform = localStorage.getItem('preferred-platform');
+  if (storedPlatform && Object.values(PLATFORMS).includes(storedPlatform)) {
+    return storedPlatform;
+  }
+  
+  return platformManager.detectPlatform();
+}
 
-// Handle reduced motion preference
-const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-const handleMotionPreference = e => {
-  document.documentElement.style.setProperty(
-    '--transition-duration',
-    e.matches ? '0.01ms' : '0.2s'
-  );
-};
-mediaQuery.addEventListener('change', handleMotionPreference);
-handleMotionPreference(mediaQuery);
+/**
+ * Set up event listeners for theme and platform changes
+ */
+function setupEventListeners() {
+  // Theme change listener
+  window.addEventListener('theme-changed', (e) => {
+    console.log('Theme changed:', e.detail.theme);
+    localStorage.setItem('preferred-theme', e.detail.theme);
+    updateMetaThemeColor(e.detail.theme);
+  });
 
-// Handle contrast preference
-const contrastQuery = window.matchMedia('(prefers-contrast: more)');
-const handleContrastPreference = e => {
-  document.documentElement.classList.toggle('high-contrast', e.matches);
-};
-contrastQuery.addEventListener('change', handleContrastPreference);
+  // Platform change listener
+  window.addEventListener('platform-changed', (e) => {
+    console.log('Platform changed:', e.detail.platform);
+    localStorage.setItem('preferred-platform', e.detail.platform);
+  });
 
-// Listen for changes
-window.addEventListener('theme-changed', (e) => {
-  console.log('Theme changed:', e.detail.theme);
-});
+  // System preference listeners
+  setupSystemPreferenceListeners();
+}
 
-window.addEventListener('platform-changed', (e) => {
-  console.log('Platform changed:', e.detail.platform);
+/**
+ * Set up listeners for system preference changes
+ */
+function setupSystemPreferenceListeners() {
+  // Color scheme preference
+  const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  colorSchemeQuery.addEventListener('change', (e) => {
+    if (!localStorage.getItem('preferred-theme')) {
+      platformManager.setTheme(e.matches ? THEMES.DARK : THEMES.LIGHT);
+    }
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', () => {
+    const platform = getPreferredPlatform();
+    platformManager.setPlatform(platform);
+  });
+}
+
+/**
+ * Update meta theme color based on current theme
+ * @param {string} theme 
+ */
+function updateMetaThemeColor(theme) {
+  const color = theme === THEMES.DARK ? '#1a1a1a' : '#f0f0f0';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
+}
+
+// Initialize app when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
+}
+
+// Cleanup on page unload
+window.addEventListener('unload', () => {
+  platformManager?.destroy();
 });

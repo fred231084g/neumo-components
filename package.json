@@ -7,7 +7,6 @@
   "module": "dist/esm/components/index.js",
   "types": "dist/types/components/index.d.ts",
   "style": "dist/css/index.css",
-  
   "files": [
     "dist",
     "src"
@@ -22,13 +21,14 @@
     "./styles": "./dist/css/index.css"
   },
   "scripts": {
-    "build": "rollup -c --environment BUILD:production --bundleConfigAsCjs", 
-  "start": "wds --config web-dev-server.config.mjs --open",
+    "build": "rollup -c --environment BUILD:production --bundleConfigAsCjs",
+    "start": "wds --config web-dev-server.config.mjs --open",
     "serve": "wds --config web-dev-server.config.mjs --open --watch",
     "dev": "npm run build && npm run serve",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@web/dev-server-esbuild": "^1.0.3",
     "lit": "^3.2.1"
   },
   "devDependencies": {
