@@ -30,6 +30,23 @@ export interface PatternTheme {
   shadowLight?: string;
   /** Dark shadow color for neumorphic effect */
   shadowDark?: string;
+}// NeumoPattern.d.ts
+import { TemplateResult } from 'lit';
+
+export type PatternType = 'z' | 'f' | 't';
+
+export interface PatternContent {
+  header?: string | TemplateResult;
+  main: string | TemplateResult;
+  secondary?: string | TemplateResult;
+  sidebar?: string | TemplateResult;
+}
+
+export interface PatternProperties {
+  pattern: PatternType;
+  content: PatternContent;
+  withDropCap?: boolean;
+  loading?: boolean;
 }
 
 /**
@@ -119,4 +136,23 @@ export interface PatternCSSProperties {
   '--pattern-content-bg'?: string;
   /** Pattern sidebar background */
   '--pattern-sidebar-bg'?: string;
+}
+
+// NeumoPattern.d.ts
+import { TemplateResult } from 'lit';
+
+export type PatternType = 'z' | 'f' | 't';
+
+export interface PatternContent {
+  header?: string | TemplateResult;
+  main: string | TemplateResult;
+  secondary?: string | TemplateResult;
+  sidebar?: string | TemplateResult;
+}
+
+export interface PatternProperties {
+  pattern: PatternType;
+  content: PatternContent;
+  withDropCap?: boolean;
+  loading?: boolean;
 }
