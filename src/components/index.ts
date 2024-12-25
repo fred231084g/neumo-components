@@ -6,3 +6,6 @@ export * from './NeumoPattern/NeumoPattern';
 // Re-export base components
 export * from './NeumoButton/NeumoButton';
 export * from './NeumoCard/NeumoCard';
+
+// Export toast component
+export * from './NeumoToast/NeumoToast';

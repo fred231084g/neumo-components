@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f0f0f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+  <title>NeumoToast Demo</title>
+  <meta name="description" content="Demo of NeumoToast component for notifications">
+  
+  <script type="importmap">
+  {
+    "imports": {
+      "lit": "/node_modules/lit/index.js",
+      "lit/": "/node_modules/lit/",
+      "lit/decorators.js": "/node_modules/lit/decorators.js",
+      "lit-html": "/node_modules/lit-html/lit-html.js",
+      "lit-html/": "/node_modules/lit-html/",
+      "lit-element/lit-element.js": "/node_modules/lit-element/lit-element.js",
+      "@lit/reactive-element": "/node_modules/@lit/reactive-element/reactive-element.js",
+      "@lit/reactive-element/": "/node_modules/@lit/reactive-element/",
+      "@lit/reactive-element/decorators/": "/node_modules/@lit/reactive-element/decorators/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="/dist/css/index.css">
+  <link rel="stylesheet" href="/fixtures/css/main.css">
+  
+  <script type="module" src="/dist/esm/components/index.js"></script>
+</head>
+<body class="web-platform">
+  <div class="container">
+    <h1>NeumoToast Component</h1>
+
+    <!-- Platform Switcher -->
+    <div class="platform-switcher" role="toolbar" aria-label="Platform selection">
+      <neumo-button 
+        label="iOS" 
+        platform="ios" 
+        variant="flat" 
+        size="sm" 
+        id="ios-switch"
+        aria-pressed="false"
+      ></neumo-button>
+      <neumo-button 
+        label="Android" 
+        platform="android" 
+        variant="flat" 
+        size="sm" 
+        id="android-switch"
+        aria-pressed="false"
+      ></neumo-button>
+      <neumo-button 
+        label="Web" 
+        platform="web" 
+        variant="flat" 
+        size="sm" 
+        id="web-switch"
+        aria-pressed="true"
+      ></neumo-button>
+    </div>
+
+    <!-- Toast Types -->
+    <section class="showcase-section">
+      <h2>Toast Types</h2>
+      <div class="showcase-grid">
+        <!-- Success Toast -->
+        <div class="demo-item">
+          <h3>Success Toast</h3>
+          <neumo-button
+            label="Show Success"
+            @click=${() => showToast('success', 'Operation completed successfully!')}
+          ></neumo-button>
+          <neumo-toast
+            type="success"
+            message="Operation completed successfully!"
+            id="success-toast"
+          ></neumo-toast>
+        </div>
+
+        <!-- Error Toast -->
+        <div class="demo-item">
+          <h3>Error Toast</h3>
+          <neumo-button
+            label="Show Error"
+            @click=${() => showToast('error', 'An error occurred. Please try again.')}
+          ></neumo-button>
+          <neumo-toast
+            type="error"
+            message="An error occurred. Please try again."
+            id="error-toast"
+          ></neumo-toast>
+        </div>
+
+        <!-- Warning Toast -->
+        <div class="demo-item">
+          <h3>Warning Toast</h3>
+          <neumo-button
+            label="Show Warning"
+            @click=${() => showToast('warning', 'Please save your changes before continuing.')}
+          ></neumo-button>
+          <neumo-toast
+            type="warning"
+            message="Please save your changes before continuing."
+            id="warning-toast"
+          ></neumo-toast>
+        </div>
+
+        <!-- Info Toast -->
+        <div class="demo-item">
+          <h3>Info Toast</h3>
+          <neumo-button
+            label="Show Info"
+            @click=${() => showToast('info', 'New updates are available.')}
+          ></neumo-button>
+          <neumo-toast
+            type="info"
+            message="New updates are available."
+            id="info-toast"
+          ></neumo-toast>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast Positions -->
+    <section class="showcase-section">
+      <h2>Toast Positions</h2>
+      <div class="showcase-grid">
+        <!-- Top Toast -->
+        <div class="demo-item">
+          <neumo-button
+            label="Show Top"
+            @click=${() => showToast('info', 'Top position toast', 'top')}
+          ></neumo-button>
+          <neumo-toast
+            position="top"
+            message="Top position toast"
+            id="top-toast"
+          ></neumo-toast>
+        </div>
+
+        <!-- Bottom Toast -->
+        <div class="demo-item">
+          <neumo-button
+            label="Show Bottom"
+            @click=${() => showToast('info', 'Bottom position toast', 'bottom')}
+          ></neumo-button>
+          <neumo-toast
+            position="bottom"
+            message="Bottom position toast"
+            id="bottom-toast"
+          ></neumo-toast>
+        </div>
+
+        <!-- Top Right Toast -->
+        <div class="demo-item">
+          <neumo-button
+            label="Show Top Right"
+            @click=${() => showToast('info', 'Top right position toast', 'top-right')}
+          ></neumo-button>
+          <neumo-toast
+            position="top-right"
+            message="Top right position toast"
+            id="top-right-toast"
+          ></neumo-toast>
+        </div>
+      </div>
+    </section>
+
+    <!-- Custom Duration -->
+    <section class="showcase-section">
+      <h2>Custom Duration</h2>
+      <div class="showcase-grid">
+        <div class="demo-item">
+          <neumo-button
+            label="Show Long Duration"
+            @click=${() => showToast('info', 'This toast will stay longer', 'bottom', 5000)}
+          ></neumo-button>
+          <neumo-toast
+            duration="5000"
+            message="This toast will stay longer"
+            id="long-duration-toast"
+          ></neumo-toast>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    function showToast(type, message, position = 'bottom', duration = 3000) {
+      const toast = document.createElement('neumo-toast');
+      toast.type = type;
+      toast.message = message;
+      toast.position = position;
+      toast.duration = duration;
+      
+      document.body.appendChild(toast);
+      
+      // Show the toast
+      setTimeout(() => {
+        toast.open = true;
+      }, 100);
+
+      // Remove the toast after it's closed
+      toast.addEventListener('neumo-toast-close', () => {
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 300);
+      });
+    }
+
+    // Platform switching logic
+    document.querySelectorAll('.platform-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const platform = e.target.getAttribute('data-platform');
+        document.body.className = `${platform}-platform`;
+      });
+    });
+  </script>
+</body>
+</html>
