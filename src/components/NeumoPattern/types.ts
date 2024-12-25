@@ -31,9 +31,7 @@ export interface PatternTheme {
   /** Dark shadow color for neumorphic effect */
   shadowDark?: string;
 }// NeumoPattern.d.ts
-import { TemplateResult } from 'lit';
 
-export type PatternType = 'z' | 'f' | 't';
 
 export interface PatternContent {
   header?: string | TemplateResult;
@@ -138,10 +136,8 @@ export interface PatternCSSProperties {
   '--pattern-sidebar-bg'?: string;
 }
 
-// NeumoPattern.d.ts
-import { TemplateResult } from 'lit';
 
-export type PatternType = 'z' | 'f' | 't';
+
 
 export interface PatternContent {
   header?: string | TemplateResult;
