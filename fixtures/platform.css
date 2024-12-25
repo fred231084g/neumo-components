@@ -1,0 +1,192 @@
+/* Enhanced root variables with better spacing and jitterfix integration */
+:root {
+    /* Core Theme Variables */
+    --color-neutral-50: #fafafa;
+    --color-neutral-100: #f0f0f0;
+    --color-neutral-200: #e4e4e4;
+    --color-neutral-300: #d1d1d1;
+    --color-neutral-400: #a3a3a3;
+    --color-neutral-500: #737373;
+    --color-neutral-600: #525252;
+    --color-neutral-700: #404040;
+    --color-neutral-800: #262626;
+    --color-neutral-900: #171717;
+    --color-primary-600: #2563eb;
+    
+    /* Spacing System */
+    --space-1: 0.25rem;  /* 4px */
+    --space-2: 0.5rem;   /* 8px */
+    --space-3: 0.75rem;  /* 12px */
+    --space-4: 1rem;     /* 16px */
+    --space-5: 1.25rem;  /* 20px */
+    --space-6: 1.5rem;   /* 24px */
+    --space-8: 2rem;     /* 32px */
+    --space-10: 2.5rem;  /* 40px */
+    --space-12: 3rem;    /* 48px */
+    
+    /* Component Spacing */
+    --card-padding-sm: var(--space-4);
+    --card-padding-md: var(--space-6);
+    --card-padding-lg: var(--space-8);
+    --button-padding-sm: var(--space-2) var(--space-4);
+    --button-padding-md: var(--space-3) var(--space-6);
+    --button-padding-lg: var(--space-4) var(--space-8);
+    
+    /* Layout */
+    --section-spacing: var(--space-12);
+    --component-gap: var(--space-4);
+    --container-padding: var(--space-5);
+    --safe-area-inset-top: env(safe-area-inset-top, var(--space-5));
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, var(--space-5));
+    
+    /* Jitterfix Values */
+    --jitterfix-scale: 1.02;
+    --jitterfix-shadow-offset: 4px;
+    --jitterfix-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Enhanced Layout Classes */
+  .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  
+  .showcase-section {
+    margin-bottom: var(--section-spacing);
+    padding: var(--space-6);
+    border-radius: 12px;
+    background-color: var(--bg-secondary);
+  
+    @media (prefers-contrast: more) {
+      border: 2px solid currentColor;
+      padding: var(--space-4);
+    }
+  }
+  
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    padding: var(--space-4);
+  }
+  
+  /* Enhanced Component Spacing */
+  .platform-switcher {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin: var(--space-8) 0;
+    padding: var(--space-4);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+  
+    @media (prefers-contrast: more) {
+      border: 2px solid currentColor;
+      padding: var(--space-3);
+    }
+  }
+  
+  /* Jitterfix Integration */
+  .jitterfix-card {
+    transition: transform var(--jitterfix-transition),
+                box-shadow var(--jitterfix-transition);
+  
+    &:hover {
+      transform: scale(var(--jitterfix-scale));
+      
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+      }
+    }
+  
+    &.hover-shadow:hover {
+      box-shadow: var(--jitterfix-shadow-offset) var(--jitterfix-shadow-offset) 
+                  calc(var(--jitterfix-shadow-offset) * 2) var(--shadow-dark),
+                  calc(var(--jitterfix-shadow-offset) * -1) calc(var(--jitterfix-shadow-offset) * -1)
+                  calc(var(--jitterfix-shadow-offset) * 2) var(--shadow-light);
+                  
+      @media (prefers-reduced-motion: reduce) {
+        box-shadow: none;
+      }
+    }
+  }
+  
+  .jitterfix-button {
+    transition: transform var(--jitterfix-transition),
+                background-color var(--jitterfix-transition);
+    
+    &:hover {
+      transform: translateY(-1px);
+      
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+      }
+    }
+  
+    &:active {
+      transform: translateY(1px);
+      
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+      }
+    }
+  }
+  
+  /* Component Wrapper Spacing */
+  .custom-button-wrapper {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+    padding: var(--space-2);
+  
+    @media (max-width: 640px) {
+      gap: var(--space-2);
+    }
+  }
+  
+  /* Platform-Specific Adjustments */
+  .ios-platform {
+    --card-padding-md: var(--space-5);
+    --button-padding-md: var(--space-3) var(--space-5);
+  }
+  
+  .android-platform {
+    --card-padding-md: var(--space-4);
+    --button-padding-md: var(--space-2) var(--space-4);
+  }
+  
+  /* Enhanced Motion Handling */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --jitterfix-scale: 1;
+      --jitterfix-transition: 0.01ms;
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* High Contrast Enhancements */
+  @media (prefers-contrast: more) {
+    :root {
+      --jitterfix-shadow-offset: 0;
+    }
+    
+    .jitterfix-card,
+    .jitterfix-button {
+      border: 2px solid currentColor;
+      
+      &:hover,
+      &:focus-visible {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+      }
+    }
+  }

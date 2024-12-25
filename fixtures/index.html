@@ -6,10 +6,13 @@
   <meta name="theme-color" content="#f0f0f0" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
   <title>Neumo Components Showcase</title>
-  
+  <meta name="description" content="Showcase of Neumo components for iOS, Android, and Web platforms.">
+  <meta name="author" content="Nnamdi Michael Okpala"> 
+  <meta name="robots" content="noindex, nofollow">
+
   <!-- Import map for module resolution -->
   <!-- Comprehensive import map for all lit dependencies -->
-<script type="importmap">
+  <script type="importmap"></script>
   {
     "imports": {
       "lit": "/node_modules/lit/index.js",
@@ -45,6 +48,7 @@
         size="sm" 
         id="ios-switch"
         aria-pressed="false"
+        class="platform-button"
       ></neumo-button>
       <neumo-button 
         label="Android" 
@@ -53,6 +57,7 @@
         size="sm" 
         id="android-switch"
         aria-pressed="false"
+        class="platform-button"
       ></neumo-button>
       <neumo-button 
         label="Web" 
@@ -61,11 +66,12 @@
         size="sm" 
         id="web-switch"
         aria-pressed="true"
+        class="platform-button"
       ></neumo-button>
     </div>
 
     <!-- Layout Patterns Section -->
-    <section class="showcase-section">
+    <section class="showcase-section" id="layout-patterns-section">
       <h2 class="section-title">Layout Patterns</h2>
       <div class="showcase-grid">
         <!-- Z Pattern Example -->
@@ -75,6 +81,8 @@
             main: "This demonstrates the Z pattern layout. Content flows from left to right, then diagonally to the next row.",
             secondary: "Secondary content appears here, completing the Z shape."
           }}
+          class="z-pattern"
+          id="z-pattern-example"
         ></neumo-z-pattern>
 
         <!-- F Pattern Example -->
@@ -86,6 +94,8 @@
             sidebar: "Sidebar content appears on the right.",
             secondary: "Additional content sections follow the same pattern."
           }}
+          class="f-pattern"
+          id="f-pattern-example"
         ></neumo-f-pattern>
 
         <!-- T Pattern Example -->
@@ -96,12 +106,14 @@
             main: "The T pattern features a prominent header followed by balanced columns of content below.",
             secondary: "Secondary content appears in the second column, maintaining the T shape."
           }}
+          class="t-pattern"
+          id="t-pattern-example"
         ></neumo-t-pattern>
       </div>
     </section>
 
     <!-- Basic Components Section -->
-    <section class="showcase-section">
+    <section class="showcase-section" id="basic-components-section">
       <h2 class="section-title">Basic Components</h2>
       <div class="showcase-grid">
         <!-- Default Card -->
@@ -112,6 +124,8 @@
           interactive="true"
           role="button"
           aria-label="Default card example"
+          class="default-card"
+          id="default-card-example"
         >
           <h3>Default Card</h3>
           <p>Basic card with default styling and interactions.</p>
@@ -120,6 +134,8 @@
             platform="web"
             variant="flat"
             size="md"
+            class="default-button"
+            id="default-button-example"
           ></neumo-button>
         </neumo-card>
 
@@ -131,6 +147,8 @@
           interactive="true"
           role="button"
           aria-label="iOS style card example"
+          class="ios-card"
+          id="ios-card-example"
         >
           <h3>iOS Style</h3>
           <p>Card with iOS-specific styling and haptic feedback.</p>
@@ -140,6 +158,8 @@
             variant="convex"
             size="md"
             useHaptics="true"
+            class="ios-button"
+            id="ios-button-example"
           ></neumo-button>
         </neumo-card>
 
@@ -151,6 +171,8 @@
           interactive="true"
           role="button"
           aria-label="Android style card example"
+          class="android-card"
+          id="android-card-example"
         >
           <h3>Android Style</h3>
           <p>Card with Material Design influenced styling.</p>
@@ -161,13 +183,15 @@
             size="md"
             rippleEffect="true"
             aria-label="Material Design button example"
+            class="android-button"
+            id="android-button-example"
           ></neumo-button>
         </neumo-card>
       </div>
     </section>
 
     <!-- Pattern Integration Section -->
-    <section class="showcase-section">
+    <section class="showcase-section" id="pattern-integration-section">
       <h2 class="section-title">Pattern Integration</h2>
       <div class="showcase-grid">
         <!-- Pattern with Components -->
@@ -179,6 +203,8 @@
                 platform="web"
                 variant="flat"
                 size="md"
+                class="nested-card"
+                id="nested-card-example"
               >
                 <h3>Nested Components</h3>
                 <p>Patterns can contain other Neumo components.</p>
@@ -187,6 +213,8 @@
                   platform="web"
                   variant="flat"
                   size="md"
+                  class="integrated-button"
+                  id="integrated-button-example"
                 ></neumo-button>
               </neumo-card>
             `,
@@ -196,20 +224,26 @@
                 platform="web"
                 variant="flat"
                 size="md"
+                class="sidebar-button"
+                id="sidebar-button-example"
               ></neumo-button>
             `
           }}
+          class="f-pattern-integration"
+          id="f-pattern-integration-example"
         ></neumo-f-pattern>
 
         <!-- Loading State Example -->
         <neumo-t-pattern
           loading="true"
+          class="t-pattern-loading"
+          id="t-pattern-loading-example"
         ></neumo-t-pattern>
       </div>
     </section>
 
     <!-- Custom Styling Section -->
-    <section class="showcase-section">
+    <section class="showcase-section" id="custom-styling-section">
       <h2 class="section-title">Custom Styling</h2>
       <div class="showcase-grid">
         <!-- Custom Colors Card -->
@@ -222,6 +256,8 @@
           interactive="true"
           role="button"
           aria-label="Custom colors example"
+          class="custom-colors-card"
+          id="custom-colors-card-example"
         >
           <h3>Custom Colors</h3>
           <p>Card with custom background and shadow colors.</p>
@@ -234,6 +270,8 @@
             shadowLight="var(--color-neutral-100)"
             shadowDark="var(--color-primary-600)"
             aria-label="Custom styled button"
+            class="custom-button"
+            id="custom-button-example"
           ></neumo-button>
         </neumo-card>
 
@@ -245,6 +283,8 @@
           interactive="true"
           role="button"
           aria-label="Size variants example"
+          class="size-variants-card"
+          id="size-variants-card-example"
         >
           <h3>Size Variants</h3>
           <p>Demonstrating different component sizes.</p>
@@ -253,16 +293,22 @@
               label="Small" 
               size="sm"
               aria-label="Small size button example"
+              class="small-button"
+              id="small-button-example"
             ></neumo-button>
             <neumo-button 
               label="Medium" 
               size="md"
               aria-label="Medium size button example"
+              class="medium-button"
+              id="medium-button-example"
             ></neumo-button>
             <neumo-button 
               label="Large" 
               size="lg"
               aria-label="Large size button example"
+              class="large-button"
+              id="large-button-example"
             ></neumo-button>
           </div>
         </neumo-card>
