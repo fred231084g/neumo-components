@@ -1,17 +1,16 @@
-import { LitElement, html, css, TemplateResult } from 'lit';
+import { LitElement, html, css, TemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { PatternProperties, PatternType, PatternContent } from './types';
 
 @customElement('neumo-pattern')
 export class NeumoPattern extends LitElement implements PatternProperties {
   @property({ type: String }) pattern: PatternType = 'z';
   @property({ type: Boolean }) loading = false;
-  @property({ type: Object }) content: PatternContent = {
-    main: ''
-  };
+  @property({ type: Object }) content: PatternContent = { main: '' };
   @property({ type: Boolean }) withDropCap = false;
+  @property({ type: String }) role?: string | null;
+  @property({ type: String }) ariaLabel?: string | null;
 
   static styles = css`
     :host {
@@ -34,7 +33,6 @@ export class NeumoPattern extends LitElement implements PatternProperties {
       color: var(--neumo-primary-color, #2c5282);
     }
 
-    /* Loading skeleton styles */
     .skeleton {
       background: linear-gradient(90deg,
         var(--neumo-skeleton-base, #e2e8f0) 25%,
@@ -55,8 +53,15 @@ export class NeumoPattern extends LitElement implements PatternProperties {
   `;
 
   protected render() {
+    const containerClasses = {
+      'pattern-container': true,
+      [`${this.pattern}-pattern`]: true
+    };
+
     return html`
-      <div class="pattern-container ${this.pattern}-pattern">
+      <div class=${classMap(containerClasses)} 
+           role=${this.role || nothing}
+           aria-label=${this.ariaLabel || nothing}>
         ${this._renderPattern()}
       </div>
     `;
@@ -68,14 +73,10 @@ export class NeumoPattern extends LitElement implements PatternProperties {
     }
 
     switch (this.pattern) {
-      case 'z':
-        return this._renderZPattern();
-      case 'f':
-        return this._renderFPattern();
-      case 't':
-        return this._renderTPattern();
-      default:
-        return html`<div>Invalid pattern</div>`;
+      case 'z': return this._renderZPattern();
+      case 'f': return this._renderFPattern();
+      case 't': return this._renderTPattern();
+      default: return html`<div>Invalid pattern</div>`;
     }
   }
 
@@ -87,7 +88,7 @@ export class NeumoPattern extends LitElement implements PatternProperties {
       </div>
       ${this.content.secondary ? html`
         <div>${this._renderContent(this.content.secondary)}</div>
-      ` : ''}
+      ` : nothing}
     `;
   }
 
@@ -98,7 +99,7 @@ export class NeumoPattern extends LitElement implements PatternProperties {
         <div class="pattern-header ${classMap(classes)}">
           ${this._renderContent(this.content.header)}
         </div>
-      ` : ''}
+      ` : nothing}
       <div class="pattern-main">
         <div class=${classMap(classes)}>
           ${this._renderContent(this.content.main)}
@@ -107,7 +108,7 @@ export class NeumoPattern extends LitElement implements PatternProperties {
           <div class="pattern-sidebar">
             ${this._renderContent(this.content.sidebar)}
           </div>
-        ` : ''}
+        ` : nothing}
       </div>
     `;
   }
@@ -119,14 +120,14 @@ export class NeumoPattern extends LitElement implements PatternProperties {
         <div class="pattern-header ${classMap(classes)}">
           ${this._renderContent(this.content.header)}
         </div>
-      ` : ''}
+      ` : nothing}
       <div class="pattern-content">
         <div class=${classMap(classes)}>
           ${this._renderContent(this.content.main)}
         </div>
         ${this.content.secondary ? html`
           <div>${this._renderContent(this.content.secondary)}</div>
-        ` : ''}
+        ` : nothing}
       </div>
     `;
   }
@@ -142,13 +143,12 @@ export class NeumoPattern extends LitElement implements PatternProperties {
 
   private _renderContent(content: string | TemplateResult) {
     if (typeof content === 'string') {
-      return html`${unsafeHTML(content)}`;
+      return html`${content}`;
     }
     return content;
   }
 }
 
-// Specific Pattern Components
 @customElement('neumo-z-pattern')
 export class NeumoZPattern extends NeumoPattern {
   constructor() {

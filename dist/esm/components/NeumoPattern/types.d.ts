@@ -27,18 +27,6 @@ export interface PatternTheme {
     /** Dark shadow color for neumorphic effect */
     shadowDark?: string;
 }
-export interface PatternContent {
-    header?: string | TemplateResult;
-    main: string | TemplateResult;
-    secondary?: string | TemplateResult;
-    sidebar?: string | TemplateResult;
-}
-export interface PatternProperties {
-    pattern: PatternType;
-    content: PatternContent;
-    withDropCap?: boolean;
-    loading?: boolean;
-}
 /**
  * Pattern states
  */
@@ -77,9 +65,9 @@ export interface PatternProperties extends PatternState {
     /** Custom class names */
     className?: string;
     /** ARIA role */
-    role?: string;
+    role?: string | null;
     /** ARIA label */
-    ariaLabel?: string;
+    ariaLabel?: string | null;
 }
 /**
  * Pattern component event types
@@ -120,16 +108,4 @@ export interface PatternCSSProperties {
     '--pattern-content-bg'?: string;
     /** Pattern sidebar background */
     '--pattern-sidebar-bg'?: string;
-}
-export interface PatternContent {
-    header?: string | TemplateResult;
-    main: string | TemplateResult;
-    secondary?: string | TemplateResult;
-    sidebar?: string | TemplateResult;
-}
-export interface PatternProperties {
-    pattern: PatternType;
-    content: PatternContent;
-    withDropCap?: boolean;
-    loading?: boolean;
 }
